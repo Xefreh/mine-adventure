@@ -9,25 +9,25 @@ import SettingsLayout from '@/layouts/settings/layout';
 import { appearance } from '@/routes';
 
 const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Appearance settings',
-        href: appearance().url,
-    },
+  {
+    title: 'Appearance settings',
+    href: appearance().url,
+  },
 ];
 
 export default function Appearance() {
-    return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Appearance settings" />
+  return (
+    <AppLayout breadcrumbs={breadcrumbs}>
+      <Head title="Appearance settings" />
 
-            <h1 className="sr-only">Appearance Settings</h1>
+      <h1 className="sr-only">Appearance Settings</h1>
 
-            <SettingsLayout>
-                <div className="space-y-6">
-                    <HeadingSmall title="Appearance settings" description="Update your account's appearance settings" />
-                    <AppearanceTabs />
-                </div>
-            </SettingsLayout>
-        </AppLayout>
-    );
+      <SettingsLayout>
+        <div className="space-y-6">
+          <HeadingSmall title="Appearance settings" description="Update your account's appearance settings" />
+          <AppearanceTabs />
+        </div>
+      </SettingsLayout>
+    </AppLayout>
+  );
 }

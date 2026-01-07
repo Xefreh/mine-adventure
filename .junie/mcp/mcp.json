@@ -1,11 +1,8 @@
 {
-    "mcpServers": {
-        "laravel-boost": {
-            "command": "/home/xefreh/.config/herd-lite/bin/php",
-            "args": [
-                "/home/xefreh/work/mine-adventure/artisan",
-                "boost:mcp"
-            ]
-        }
+  "mcpServers": {
+    "laravel-boost": {
+      "command": "/home/xefreh/.config/herd-lite/bin/php",
+      "args": ["/home/xefreh/work/mine-adventure/artisan", "boost:mcp"]
     }
+  }
 }
