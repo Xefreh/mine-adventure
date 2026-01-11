@@ -609,3 +609,7 @@ defaults
 | decoration-slice | box-decoration-slice |
 | decoration-clone | box-decoration-clone |
 </laravel-boost-guidelines>
+
+## Database
+
+See the full schema in `docs/schema.dbml`

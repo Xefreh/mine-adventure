@@ -1,0 +1,127 @@
+Table users {
+  id bigint [pk, not null, increment]
+  name varchar [not null]
+  email varchar [not null, unique]
+  email_verified_at timestamp [null]
+  workos_id varchar [not null, unique]
+  remember_token varchar(100) [null]
+  avatar text [not null]
+  is_admin tinyint [not null, default: 0]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table sessions {
+  id varchar [pk, not null]
+  user_id bigint [ref: > users.id, null]
+  ip_address varchar(45) [null]
+  user_agent text [null]
+  payload longtext [not null]
+  last_activity integer [not null]
+
+  indexes {
+    last_activity
+    user_id
+  }
+}
+
+enum difficulty_type {
+  easy
+  medium
+  hard
+}
+
+Table courses {
+  id integer [pk, not null, increment]
+  name varchar [not null, unique]
+  thumbnail varchar [not null]
+  difficulty difficulty_type [not null]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table chapters {
+  id integer [pk, not null, increment]
+  name varchar [not null]
+  course_id integer [ref: > courses.id]
+  position integer [not null]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+
+  indexes {
+    (course_id, position) [unique]
+  }
+}
+
+Table lessons {
+  id integer [pk, not null, increment]
+  name varchar [not null, unique]
+  chapter_id integer [ref: > chapters.id]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+enum block_type {
+  video
+  text
+  resources
+  assignment
+  quiz
+}
+
+Table lesson_blocks {
+  id integer [pk, not null, increment]
+  lesson_id integer [ref: > lessons.id]
+  type block_type [not null]
+  position integer [not null]
+  side varchar [null]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table block_videos {
+  id integer [pk, not null, increment]
+  block_id integer [ref: - lesson_blocks.id, unique]
+  url varchar [not null]
+  duration integer [null]
+}
+
+Table block_texts {
+  id integer [pk, not null, increment]
+  block_id integer [ref: - lesson_blocks.id, unique]
+  content text [not null]
+}
+
+Table block_resources {
+  id integer [pk, not null, increment]
+  block_id integer [ref: - lesson_blocks.id, unique]
+  links json [not null]
+}
+
+Table block_assignments {
+  id integer [pk, not null, increment]
+  block_id integer [ref: - lesson_blocks.id, unique]
+  instructions text [not null]
+  starter_code text [null]
+}
+
+Table block_assignment_tests {
+  id integer [pk, not null, increment]
+  block_assignment_id integer [ref: > block_assignments.id]
+  file_content text [not null]
+  class_name varchar(255) [not null]
+}
+
+Table block_quizzes {
+  id integer [pk, not null, increment]
+  block_id integer [ref: - lesson_blocks.id, unique]
+}
+
+Table block_quiz_questions {
+  id integer [pk, not null, increment]
+  block_quiz_id integer [ref: > block_quizzes.id]
+  question text [not null]
+  options json [not null]
+  correct_answer integer [not null]
+  position integer [not null]
+}
