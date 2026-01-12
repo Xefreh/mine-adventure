@@ -1,8 +1,28 @@
 <?php
 
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\CodeExecutionController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\LessonController;
 use Illuminate\Support\Facades\Route;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
+
+// Public course routes
+Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function () {
+    Route::get('courses', [CourseController::class, 'index'])->name('courses.index');
+    Route::get('courses/{course}', [CourseController::class, 'show'])->name('courses.show');
+
+    Route::scopeBindings()->prefix('courses/{course}')->name('courses.')->group(function () {
+        Route::get('lessons/{lesson}', [LessonController::class, 'show'])->name('lessons.show');
+        Route::post('lessons/{lesson}/complete', [LessonController::class, 'complete'])->name('lessons.complete');
+    });
+
+    // Code execution routes
+    Route::prefix('assignments/{assignment}')->name('assignments.')->group(function () {
+        Route::post('run', [CodeExecutionController::class, 'run'])->name('run');
+        Route::post('submit', [CodeExecutionController::class, 'submit'])->name('submit');
+    });
+});
 
 // Admin routes
 Route::middleware(['auth', ValidateSessionWithWorkOS::class, 'admin'])
@@ -19,6 +39,11 @@ Route::middleware(['auth', ValidateSessionWithWorkOS::class, 'admin'])
             Route::patch('chapters/{chapter}', [Admin\ChapterController::class, 'update'])->name('chapters.update');
             Route::delete('chapters/{chapter}', [Admin\ChapterController::class, 'destroy'])->name('chapters.destroy');
             Route::post('chapters/reorder', [Admin\ChapterController::class, 'reorder'])->name('chapters.reorder');
+
+            // FAQ management
+            Route::post('faqs', [Admin\FaqController::class, 'store'])->name('faqs.store');
+            Route::patch('faqs/{faq}', [Admin\FaqController::class, 'update'])->name('faqs.update');
+            Route::delete('faqs/{faq}', [Admin\FaqController::class, 'destroy'])->name('faqs.destroy');
         });
 
         // Lesson management (nested under chapter)

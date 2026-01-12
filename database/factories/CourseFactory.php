@@ -20,6 +20,7 @@ class CourseFactory extends Factory
         return [
             'name' => fake()->unique()->words(3, true),
             'thumbnail' => fake()->imageUrl(640, 480, 'education'),
+            'description' => fake()->paragraphs(3, true),
             'difficulty' => fake()->randomElement(CourseDifficulty::cases()),
         ];
     }

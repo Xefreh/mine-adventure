@@ -44,6 +44,7 @@ class StoreBlockRequest extends FormRequest
         if ($type === BlockType::Assignment->value) {
             $rules['instructions'] = ['nullable', 'string'];
             $rules['starter_code'] = ['nullable', 'string'];
+            $rules['language'] = ['nullable', 'string', 'max:50'];
         }
 
         return $rules;

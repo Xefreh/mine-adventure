@@ -10,9 +10,10 @@ import { UserMenuContent } from '@/components/user-menu-content';
 import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
+import { index as coursesIndex } from '@/routes/courses';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Menu, Settings } from 'lucide-react';
+import { BookOpen, LayoutGrid, Menu, Settings } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 
@@ -21,6 +22,11 @@ const mainNavItems: NavItem[] = [
     title: 'Dashboard',
     href: dashboard(),
     icon: LayoutGrid,
+  },
+  {
+    title: 'Courses',
+    href: coursesIndex(),
+    icon: BookOpen,
   },
 ];
 

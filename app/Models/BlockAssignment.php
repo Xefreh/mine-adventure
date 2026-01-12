@@ -18,6 +18,8 @@ class BlockAssignment extends Model
         'block_id',
         'instructions',
         'starter_code',
+        'solution',
+        'language',
     ];
 
     /**
