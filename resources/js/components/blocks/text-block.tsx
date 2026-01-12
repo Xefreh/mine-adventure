@@ -1,4 +1,6 @@
 import type { BlockText } from '@/types';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface TextBlockProps {
   text: BlockText;
@@ -7,7 +9,7 @@ interface TextBlockProps {
 export function TextBlock({ text }: TextBlockProps) {
   return (
     <div className="prose dark:prose-invert max-w-none">
-      <div dangerouslySetInnerHTML={{ __html: text.content }} />
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{text.content}</ReactMarkdown>
     </div>
   );
 }

@@ -3,8 +3,9 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import type { LessonBlock } from '@/types';
+import MDEditor from '@uiw/react-md-editor';
 import { Code } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface EditableAssignmentBlockProps {
   block: LessonBlock;
@@ -31,6 +32,19 @@ export function EditableAssignmentBlock({ block, onSave }: EditableAssignmentBlo
   const [instructions, setInstructions] = useState(block.assignment?.instructions ?? '');
   const [starterCode, setStarterCode] = useState(block.assignment?.starter_code ?? '');
   const [language, setLanguage] = useState(block.assignment?.language ?? 'php');
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const checkDarkMode = () => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    };
+    checkDarkMode();
+
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    return () => observer.disconnect();
+  }, []);
 
   const saveData = (newData: Partial<{ instructions: string; starter_code: string; language: string }>) => {
     onSave(block.id, {
@@ -83,14 +97,15 @@ export function EditableAssignmentBlock({ block, onSave }: EditableAssignmentBlo
         </div>
 
         <div className="space-y-2">
-          <Label>Instructions</Label>
-          <Textarea
-            value={instructions}
-            onChange={(e) => setInstructions(e.target.value)}
-            onBlur={handleInstructionsBlur}
-            placeholder="Enter assignment instructions..."
-            className="min-h-[100px] resize-y"
-          />
+          <Label>Instructions (Markdown)</Label>
+          <div data-color-mode={isDark ? 'dark' : 'light'} onBlur={handleInstructionsBlur}>
+            <MDEditor
+              value={instructions}
+              onChange={(val) => setInstructions(val || '')}
+              preview="live"
+              height={200}
+            />
+          </div>
         </div>
 
         <div className="space-y-2">
