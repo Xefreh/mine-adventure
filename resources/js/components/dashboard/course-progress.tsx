@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import type { ChapterProgress, CurrentCourseProgress, Lesson, LessonProgress } from '@/types';
+import type { CurrentCourseProgress, Lesson } from '@/types';
 import { Link } from '@inertiajs/react';
 import { Check, Lock, Play } from 'lucide-react';
 
@@ -115,13 +115,11 @@ export function CourseProgress({ progress, nextLesson }: CourseProgressProps) {
 
             {/* Nodes */}
             <div className="relative flex justify-between items-center">
-              {timelineNodes.map((node, index) => (
+              {timelineNodes.map((node) => (
                 <TimelineNodeComponent
                   key={`${node.type}-${node.id}`}
                   node={node}
                   courseId={course.id}
-                  position={index}
-                  total={timelineNodes.length}
                 />
               ))}
             </div>
@@ -135,13 +133,9 @@ export function CourseProgress({ progress, nextLesson }: CourseProgressProps) {
 function TimelineNodeComponent({
   node,
   courseId,
-  position,
-  total,
 }: {
   node: TimelineNode;
   courseId: number;
-  position: number;
-  total: number;
 }) {
   const isChapter = node.type === 'chapter';
 
