@@ -23,7 +23,6 @@ class BlockController extends Controller
             $block = $lesson->blocks()->create([
                 'type' => $validated['type'],
                 'position' => $validated['position'],
-                'side' => $validated['side'] ?? null,
             ]);
 
             $this->createBlockContent($block, $validated);
@@ -40,7 +39,6 @@ class BlockController extends Controller
 
             $block->update([
                 'position' => $validated['position'] ?? $block->position,
-                'side' => $validated['side'] ?? $block->side,
             ]);
 
             $this->updateBlockContent($block, $validated);
@@ -99,6 +97,7 @@ class BlockController extends Controller
             BlockType::Assignment => $block->assignment()->create([
                 'instructions' => $data['instructions'] ?? '',
                 'starter_code' => $data['starter_code'] ?? null,
+                'language' => $data['language'] ?? 'php',
             ]),
             BlockType::Quiz => $block->quiz()->create([]),
         };
@@ -123,6 +122,7 @@ class BlockController extends Controller
             BlockType::Assignment => $block->assignment?->update([
                 'instructions' => $data['instructions'] ?? $block->assignment->instructions,
                 'starter_code' => $data['starter_code'] ?? $block->assignment->starter_code,
+                'language' => $data['language'] ?? $block->assignment->language,
             ]),
             BlockType::Quiz => null,
         };

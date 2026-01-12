@@ -15,6 +15,8 @@ class BlockAssignmentTest extends Model
 
     protected $fillable = [
         'block_assignment_id',
+        'stdin',
+        'expected_output',
         'file_content',
         'class_name',
     ];

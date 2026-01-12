@@ -32,4 +32,12 @@ class Lesson extends Model
     {
         return $this->hasMany(LessonBlock::class)->orderBy('position');
     }
+
+    /**
+     * @return HasMany<LessonCompletion, $this>
+     */
+    public function completions(): HasMany
+    {
+        return $this->hasMany(LessonCompletion::class);
+    }
 }

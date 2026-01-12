@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "1ee1a4b958d7214647994e8fa9508910",
+  "content-hash": "b53f249db2d140832d09147a182b82ec",
   "packages": [
     {
       "name": "brick/math",
@@ -6346,6 +6346,51 @@
         "source": "https://github.com/workos/workos-php/tree/v4.29.0"
       },
       "time": "2025-12-03T20:21:28+00:00"
+    },
+    {
+      "name": "xefreh/judge0-php-client",
+      "version": "dev-main",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/Xefreh/judge0-php-client.git",
+        "reference": "6db21c47c0e9107524386ec7bafd8985690b1cce"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/Xefreh/judge0-php-client/zipball/6db21c47c0e9107524386ec7bafd8985690b1cce",
+        "reference": "6db21c47c0e9107524386ec7bafd8985690b1cce",
+        "shasum": ""
+      },
+      "require": {
+        "guzzlehttp/guzzle": "^7.10",
+        "php": "^8.4"
+      },
+      "require-dev": {
+        "phpunit/phpunit": "^12.5"
+      },
+      "default-branch": true,
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "Xefreh\\Judge0PhpClient\\": "src/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "Xefreh",
+          "email": "william.strainchamps@gmail.com"
+        }
+      ],
+      "description": "PHP Client for Judge0 API",
+      "support": {
+        "issues": "https://github.com/Xefreh/judge0-php-client/issues",
+        "source": "https://github.com/Xefreh/judge0-php-client/tree/main"
+      },
+      "time": "2026-01-08T21:28:39+00:00"
     }
   ],
   "packages-dev": [
@@ -9840,11 +9885,13 @@
   ],
   "aliases": [],
   "minimum-stability": "stable",
-  "stability-flags": {},
+  "stability-flags": {
+    "xefreh/judge0-php-client": 20
+  },
   "prefer-stable": true,
   "prefer-lowest": false,
   "platform": {
-    "php": "^8.2"
+    "php": "^8.4"
   },
   "platform-dev": {},
   "plugin-api-version": "2.6.0"

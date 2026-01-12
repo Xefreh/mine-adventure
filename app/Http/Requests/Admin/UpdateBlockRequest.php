@@ -43,6 +43,7 @@ class UpdateBlockRequest extends FormRequest
         if ($type === BlockType::Assignment) {
             $rules['instructions'] = ['sometimes', 'string'];
             $rules['starter_code'] = ['nullable', 'string'];
+            $rules['language'] = ['sometimes', 'string', 'max:50'];
         }
 
         return $rules;

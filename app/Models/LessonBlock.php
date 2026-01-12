@@ -17,7 +17,6 @@ class LessonBlock extends Model
         'lesson_id',
         'type',
         'position',
-        'side',
     ];
 
     /**

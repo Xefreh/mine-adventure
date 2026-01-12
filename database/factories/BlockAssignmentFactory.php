@@ -21,6 +21,8 @@ class BlockAssignmentFactory extends Factory
             'block_id' => LessonBlock::factory()->assignment(),
             'instructions' => fake()->paragraphs(2, true),
             'starter_code' => fake()->optional()->text(500),
+            'solution' => fake()->optional()->text(500),
+            'language' => fake()->randomElement(['php', 'python', 'javascript']),
         ];
     }
 }
