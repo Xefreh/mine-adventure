@@ -50,9 +50,22 @@ export interface Course {
   id: number;
   name: string;
   thumbnail: string;
+  description: string | null;
   difficulty: CourseDifficulty;
   chapters?: Chapter[];
+  faqs?: CourseFaq[];
   chapters_count?: number;
+  lessons_count?: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CourseFaq {
+  id: number;
+  course_id: number;
+  question: string;
+  answer: string;
+  order: number;
   created_at: string;
   updated_at: string;
 }
@@ -85,7 +98,6 @@ export interface LessonBlock {
   lesson_id: number;
   type: BlockType;
   position: number;
-  side: string | null;
   video?: BlockVideo;
   text?: BlockText;
   resource?: BlockResource;
@@ -124,14 +136,18 @@ export interface BlockAssignment {
   block_id: number;
   instructions: string;
   starter_code: string | null;
+  solution?: string | null;
+  language: string;
   tests?: BlockAssignmentTest[];
 }
 
 export interface BlockAssignmentTest {
   id: number;
   block_assignment_id: number;
-  file_content: string;
-  class_name: string;
+  stdin?: string | null;
+  expected_output?: string | null;
+  file_content?: string | null;
+  class_name?: string | null;
 }
 
 export interface BlockQuiz {

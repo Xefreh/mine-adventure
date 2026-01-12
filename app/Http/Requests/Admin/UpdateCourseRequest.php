@@ -21,6 +21,7 @@ class UpdateCourseRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255', Rule::unique('courses', 'name')->ignore($this->route('course'))],
             'thumbnail' => ['required', 'string', 'max:500'],
+            'description' => ['nullable', 'string'],
             'difficulty' => ['required', Rule::enum(CourseDifficulty::class)],
         ];
     }

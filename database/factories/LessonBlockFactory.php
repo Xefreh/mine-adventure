@@ -22,7 +22,6 @@ class LessonBlockFactory extends Factory
             'lesson_id' => Lesson::factory(),
             'type' => fake()->randomElement(BlockType::cases()),
             'position' => fake()->numberBetween(1, 100),
-            'side' => null,
         ];
     }
 

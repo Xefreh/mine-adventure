@@ -39,9 +39,14 @@ class CourseController extends Controller
 
     public function edit(Course $course): Response
     {
-        $course->load(['chapters' => function ($query) {
-            $query->orderBy('position')->withCount('lessons');
-        }]);
+        $course->load([
+            'chapters' => function ($query) {
+                $query->orderBy('position')->withCount('lessons');
+            },
+            'faqs' => function ($query) {
+                $query->orderBy('order');
+            },
+        ]);
 
         return Inertia::render('admin/courses/edit', [
             'course' => $course,
