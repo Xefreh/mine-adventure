@@ -29,9 +29,8 @@ export default function LessonShow({
   currentLessonNumber,
   totalLessons,
 }: LessonShowProps) {
-  const blocks = lesson.blocks || [];
-
   const { hasAssignment, assignmentBlock, contentBlocks } = useMemo(() => {
+    const blocks = lesson.blocks || [];
     const assignment = blocks.find((b) => b.type === 'assignment');
     const content = blocks.filter((b) => b.type !== 'assignment' || b.id === assignment?.id);
 
@@ -40,7 +39,7 @@ export default function LessonShow({
       assignmentBlock: assignment,
       contentBlocks: content,
     };
-  }, [blocks]);
+  }, [lesson.blocks]);
 
   const chapter = lesson.chapter || chapters.find((c) => c.id === lesson.chapter_id);
 

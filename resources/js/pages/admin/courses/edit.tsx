@@ -194,7 +194,6 @@ interface FaqSectionProps {
 }
 
 function FaqSection({ courseId, faqs }: FaqSectionProps) {
-  const [localFaqs, setLocalFaqs] = useState(faqs);
   const [newQuestion, setNewQuestion] = useState('');
   const [newAnswer, setNewAnswer] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -209,7 +208,7 @@ function FaqSection({ courseId, faqs }: FaqSectionProps) {
       {
         question: newQuestion,
         answer: newAnswer,
-        order: localFaqs.length,
+        order: faqs.length,
       },
       {
         preserveScroll: true,
