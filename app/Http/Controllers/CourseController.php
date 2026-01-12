@@ -15,7 +15,7 @@ class CourseController extends Controller
             ->withCount(['chapters', 'chapters as lessons_count' => function ($query) {
                 $query->selectRaw('sum((select count(*) from lessons where lessons.chapter_id = chapters.id))');
             }])
-            ->orderBy('name')
+            ->orderBy('id')
             ->get();
 
         $user = Auth::user();

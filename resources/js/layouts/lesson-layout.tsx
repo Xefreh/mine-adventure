@@ -30,13 +30,7 @@ export default function LessonLayout({
   canComplete = true,
 }: PropsWithChildren<LessonLayoutProps>) {
   return (
-    <AppHeaderLayout
-      breadcrumbs={[
-        { title: 'Courses', href: '/courses' },
-        { title: course.name, href: `/courses/${course.id}` },
-        { title: lesson.name, href: `/courses/${course.id}/lessons/${lesson.id}` },
-      ]}
-    >
+    <AppHeaderLayout fullWidth>
       <div className="flex min-h-[calc(100vh-4rem)] flex-col">
         <LessonNav
           course={course}

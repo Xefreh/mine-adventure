@@ -38,7 +38,9 @@ export function LessonNav({
   canComplete = true,
 }: LessonNavProps) {
   const isCompleted = completedLessonIds.includes(lesson.id);
-  const currentChapter = chapters.find((c) => c.id === chapter.id);
+  const currentChapterIndex = chapters.findIndex((c) => c.id === chapter.id);
+  const currentChapter = chapters[currentChapterIndex];
+  const currentLessonIndex = currentChapter?.lessons?.findIndex((l) => l.id === lesson.id) ?? -1;
 
   const handleMarkComplete = () => {
     router.post(`/courses/${course.id}/lessons/${lesson.id}/complete`, {}, { preserveScroll: true });
@@ -63,12 +65,13 @@ export function LessonNav({
 
   return (
     <div className="border-b border-sidebar-border/80 bg-background">
-      <div className="mx-auto flex h-14 items-center justify-between px-4 md:max-w-7xl">
+      <div className="flex h-14 w-full items-center justify-between px-4 lg:px-8">
         <div className="flex items-center gap-2">
           {/* Chapter Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="gap-2">
+                <span className="shrink-0 font-mono text-xs text-muted-foreground">CH{currentChapterIndex + 1}</span>
                 <span className="max-w-[150px] truncate">{chapter.name}</span>
                 <ChevronDown className="size-4" />
               </Button>
@@ -76,7 +79,7 @@ export function LessonNav({
             <DropdownMenuContent align="start" className="w-64">
               <DropdownMenuLabel>Chapters</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {chapters.map((c) => {
+              {chapters.map((c, chapterIdx) => {
                 const chapterLessons = c.lessons || [];
                 const completedInChapter = chapterLessons.filter((l) => completedLessonIds.includes(l.id)).length;
                 const isCurrentChapter = c.id === chapter.id;
@@ -84,7 +87,10 @@ export function LessonNav({
                 return (
                   <DropdownMenuItem key={c.id} asChild className={isCurrentChapter ? 'bg-accent' : ''}>
                     <Link href={`/courses/${course.id}/lessons/${chapterLessons[0]?.id}`} className="flex w-full justify-between">
-                      <span className="truncate">{c.name}</span>
+                      <span className="truncate">
+                        <span className="text-muted-foreground mr-2">{chapterIdx + 1}.</span>
+                        {c.name}
+                      </span>
                       <span className="text-muted-foreground text-xs">
                         {completedInChapter}/{chapterLessons.length}
                       </span>
@@ -99,6 +105,7 @@ export function LessonNav({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="gap-2">
+                <span className="shrink-0 font-mono text-xs text-muted-foreground">L{currentLessonIndex + 1}</span>
                 <span className="max-w-[200px] truncate">{lesson.name}</span>
                 <ChevronDown className="size-4" />
               </Button>
@@ -106,7 +113,7 @@ export function LessonNav({
             <DropdownMenuContent align="start" className="w-72">
               <DropdownMenuLabel>Lessons in {chapter.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {currentChapter?.lessons?.map((l) => {
+              {currentChapter?.lessons?.map((l, lessonIdx) => {
                 const isLessonCompleted = completedLessonIds.includes(l.id);
                 const isCurrentLesson = l.id === lesson.id;
 
@@ -118,7 +125,10 @@ export function LessonNav({
                       ) : (
                         <span className="size-4 shrink-0" />
                       )}
-                      <span className="truncate">{l.name}</span>
+                      <span className="truncate">
+                        <span className="text-muted-foreground mr-2">{lessonIdx + 1}.</span>
+                        {l.name}
+                      </span>
                     </Link>
                   </DropdownMenuItem>
                 );

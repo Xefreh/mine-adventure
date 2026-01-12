@@ -164,3 +164,39 @@ export interface BlockQuizQuestion {
   correct_answer: number;
   position: number;
 }
+
+// Dashboard Progress Types
+export interface LessonProgress {
+  id: number;
+  name: string;
+  isComplete: boolean;
+  isCurrent: boolean;
+  isLocked: boolean;
+}
+
+export interface ChapterProgress {
+  id: number;
+  name: string;
+  totalLessons: number;
+  lessonsCompleted: number;
+  isComplete: boolean;
+  isCurrent: boolean;
+  isLocked: boolean;
+  lessons: LessonProgress[];
+}
+
+export interface CurrentCourseProgress {
+  course: Course;
+  progressPercentage: number;
+  completedLessons: number;
+  totalLessons: number;
+  chapters: ChapterProgress[];
+}
+
+export interface DashboardStats {
+  totalCoursesStarted: number;
+  totalCoursesCompleted: number;
+  totalLessonsCompleted: number;
+  currentStreak: number;
+  lastActivityAt: string | null;
+}
