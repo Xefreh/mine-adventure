@@ -79,7 +79,7 @@ export default function LessonShow({
 
 function ColumnViewLayout({ blocks }: { blocks: LessonBlock[] }) {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8">
+    <div className="mx-auto w-full max-w-4xl px-4 py-8">
       <div className="space-y-8">
         {blocks.map((block) => (
           <BlockRenderer key={block.id} block={block} />
@@ -204,45 +204,50 @@ function SplitViewLayout({
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8">
-      <div className="grid gap-8 lg:grid-cols-2">
-        {/* Left Panel - Content */}
+    <div className="flex h-[calc(100vh-8rem)] w-full gap-8 px-4 py-4 lg:px-8">
+      {/* Left Panel - Content (scrollable) */}
+      <div className="flex-1 overflow-y-auto pr-4">
         <div className="space-y-8">
           {contentBlocks.map((block) => (
             <BlockRenderer key={block.id} block={block} />
           ))}
         </div>
+      </div>
 
-        {/* Right Panel - Code Editor */}
-        <div className="lg:sticky lg:top-4 lg:self-start">
-          <div className="overflow-hidden rounded-lg border">
-            <div className="border-b bg-muted/50 px-4 py-2">
+      {/* Right Panel - Code Editor (fixed) */}
+      <div className="flex flex-1 flex-col">
+          <div className="flex flex-1 flex-col overflow-hidden rounded-lg border">
+            <div className="shrink-0 border-b bg-muted/50 px-4 py-2">
               <h3 className="font-medium">Code Editor</h3>
               <p className="text-muted-foreground text-sm">{assignment?.language || 'php'}</p>
             </div>
-            <CodeEditor
-              language={assignment?.language || 'php'}
-              value={code}
-              onChange={setCode}
-              height="300px"
-            />
-            <EditorActionBar
-              onRun={handleRun}
-              onSubmit={handleSubmit}
-              onRevealSolution={handleRevealSolution}
-              isRunning={isRunning}
-              isSubmitting={isSubmitting}
-              solutionRevealed={solutionRevealed}
-              hasSolution={!!assignment?.solution}
-            />
+            <div className="flex-1 min-h-0">
+              <CodeEditor
+                language={assignment?.language || 'php'}
+                value={code}
+                onChange={setCode}
+                height="100%"
+              />
+            </div>
+            <div className="shrink-0">
+              <EditorActionBar
+                onRun={handleRun}
+                onSubmit={handleSubmit}
+                onRevealSolution={handleRevealSolution}
+                isRunning={isRunning}
+                isSubmitting={isSubmitting}
+                solutionRevealed={solutionRevealed}
+                hasSolution={!!assignment?.solution}
+              />
+            </div>
             <TerminalOutput
               output={output}
               isRunning={isRunning}
               error={error}
               onClear={handleClearOutput}
+              className="shrink-0"
             />
           </div>
-        </div>
       </div>
     </div>
   );

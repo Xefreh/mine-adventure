@@ -34,16 +34,17 @@ const activeItemStyles = 'text-neutral-900 dark:bg-neutral-800 dark:text-neutral
 
 interface AppHeaderProps {
   breadcrumbs?: BreadcrumbItem[];
+  fullWidth?: boolean;
 }
 
-export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
+export function AppHeader({ breadcrumbs = [], fullWidth = false }: AppHeaderProps) {
   const page = usePage<SharedData>();
   const { auth } = page.props;
   const getInitials = useInitials();
   return (
     <>
       <div className="border-b border-sidebar-border/80">
-        <div className="mx-auto flex h-16 items-center px-4 md:max-w-7xl">
+        <div className={`flex h-16 items-center px-4 ${fullWidth ? 'w-full lg:px-8' : 'mx-auto md:max-w-7xl'}`}>
           {/* Mobile Menu */}
           <div className="lg:hidden">
             <Sheet>
