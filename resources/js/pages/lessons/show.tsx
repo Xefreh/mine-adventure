@@ -29,6 +29,8 @@ export default function LessonShow({
   currentLessonNumber,
   totalLessons,
 }: LessonShowProps) {
+  const [assignmentPassed, setAssignmentPassed] = useState(false);
+
   const { hasAssignment, assignmentBlock, contentBlocks } = useMemo(() => {
     const blocks = lesson.blocks || [];
     const assignment = blocks.find((b) => b.type === 'assignment');
@@ -58,6 +60,7 @@ export default function LessonShow({
       nextLesson={nextLesson}
       currentLessonNumber={currentLessonNumber}
       totalLessons={totalLessons}
+      canComplete={!hasAssignment || assignmentPassed}
     >
       <Head title={`${lesson.name} - ${course.name}`} />
 
@@ -65,6 +68,7 @@ export default function LessonShow({
         <SplitViewLayout
           contentBlocks={contentBlocks}
           assignmentBlock={assignmentBlock!}
+          onAssignmentPassed={() => setAssignmentPassed(true)}
         />
       ) : (
         <ColumnViewLayout blocks={contentBlocks} />
@@ -88,9 +92,11 @@ function ColumnViewLayout({ blocks }: { blocks: LessonBlock[] }) {
 function SplitViewLayout({
   contentBlocks,
   assignmentBlock,
+  onAssignmentPassed,
 }: {
   contentBlocks: LessonBlock[];
   assignmentBlock: LessonBlock;
+  onAssignmentPassed: () => void;
 }) {
   const assignment = assignmentBlock.assignment;
 
@@ -163,6 +169,7 @@ function SplitViewLayout({
 
       if (data.success) {
         setOutput(`All tests passed! (${data.passed}/${data.total})`);
+        onAssignmentPassed();
       } else {
         const details = data.results
           ?.map((r: { passed: boolean }, i: number) => `Test ${i + 1}: ${r.passed ? '✓' : '✗'}`)

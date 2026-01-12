@@ -22,6 +22,7 @@ interface LessonNavProps {
   nextLesson: Lesson | null;
   currentLessonNumber: number;
   totalLessons: number;
+  canComplete?: boolean;
 }
 
 export function LessonNav({
@@ -34,6 +35,7 @@ export function LessonNav({
   nextLesson,
   currentLessonNumber,
   totalLessons,
+  canComplete = true,
 }: LessonNavProps) {
   const isCompleted = completedLessonIds.includes(lesson.id);
   const currentChapter = chapters.find((c) => c.id === chapter.id);
@@ -138,8 +140,14 @@ export function LessonNav({
               Completed
             </Button>
           ) : (
-            <Button variant="default" size="sm" onClick={handleMarkComplete}>
-              Mark Complete
+            <Button
+              variant="default"
+              size="sm"
+              onClick={handleMarkComplete}
+              disabled={!canComplete}
+              title={!canComplete ? 'Pass all tests to complete this lesson' : undefined}
+            >
+              {canComplete ? 'Mark Complete' : 'Pass Tests First'}
             </Button>
           )}
 

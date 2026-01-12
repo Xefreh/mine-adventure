@@ -1,5 +1,7 @@
 import type { BlockAssignment } from '@/types';
 import { Code2 } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface AssignmentBlockProps {
   assignment: BlockAssignment;
@@ -16,7 +18,7 @@ export function AssignmentBlock({ assignment }: AssignmentBlockProps) {
       </div>
       <div className="p-4">
         <div className="prose dark:prose-invert max-w-none">
-          <div dangerouslySetInnerHTML={{ __html: assignment.instructions }} />
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{assignment.instructions}</ReactMarkdown>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
-import type { BlockQuiz, BlockQuizQuestion } from '@/types';
-import { CheckCircle2, Circle, HelpCircle, XCircle } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import type { BlockQuiz } from '@/types';
+import { CheckCircle2, Circle, HelpCircle, RotateCcw, XCircle } from 'lucide-react';
 import { useState } from 'react';
 
 interface QuizBlockProps {
@@ -9,29 +10,38 @@ interface QuizBlockProps {
 
 export function QuizBlock({ quiz }: QuizBlockProps) {
   const questions = quiz.questions || [];
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [showResult, setShowResult] = useState(false);
 
   if (questions.length === 0) {
     return null;
   }
 
-  const handleSelectAnswer = (questionId: number, optionIndex: number) => {
-    if (submitted) return;
-    setAnswers((prev) => ({ ...prev, [questionId]: optionIndex }));
+  const currentQuestion = questions[currentIndex];
+  const isLastQuestion = currentIndex === questions.length - 1;
+  const hasAnswered = answers[currentQuestion?.id] !== undefined;
+  const correctCount = questions.filter((q) => answers[q.id] === q.correct_answer).length;
+  const progress = ((currentIndex + (showResult ? 1 : 0)) / questions.length) * 100;
+
+  const handleSelectAnswer = (optionIndex: number) => {
+    if (hasAnswered) return;
+    setAnswers((prev) => ({ ...prev, [currentQuestion.id]: optionIndex }));
   };
 
-  const handleSubmit = () => {
-    setSubmitted(true);
+  const handleNext = () => {
+    if (isLastQuestion) {
+      setShowResult(true);
+    } else {
+      setCurrentIndex((prev) => prev + 1);
+    }
   };
 
   const handleReset = () => {
     setAnswers({});
-    setSubmitted(false);
+    setCurrentIndex(0);
+    setShowResult(false);
   };
-
-  const correctCount = questions.filter((q) => answers[q.id] === q.correct_answer).length;
-  const allAnswered = questions.every((q) => answers[q.id] !== undefined);
 
   return (
     <div className="rounded-lg border bg-card">
@@ -41,99 +51,133 @@ export function QuizBlock({ quiz }: QuizBlockProps) {
             <HelpCircle className="size-5 text-muted-foreground" />
             <h3 className="font-semibold">Quiz</h3>
           </div>
-          {submitted && (
-            <span className="text-sm font-medium">
-              Score: {correctCount}/{questions.length}
+          {!showResult && (
+            <span className="text-muted-foreground text-sm">
+              {currentIndex + 1} / {questions.length}
             </span>
           )}
         </div>
+        <Progress value={progress} className="mt-2 h-1" />
       </div>
-      <div className="divide-y">
-        {questions.map((question, qIndex) => (
-          <QuestionItem
-            key={question.id}
-            question={question}
-            questionNumber={qIndex + 1}
-            selectedAnswer={answers[question.id]}
-            onSelectAnswer={(optionIndex) => handleSelectAnswer(question.id, optionIndex)}
-            submitted={submitted}
-          />
-        ))}
-      </div>
-      <div className="border-t px-4 py-3">
-        {submitted ? (
-          <Button onClick={handleReset} variant="outline">
-            Try Again
-          </Button>
-        ) : (
-          <Button onClick={handleSubmit} disabled={!allAnswered}>
-            Submit Answers
-          </Button>
-        )}
-      </div>
+
+      {showResult ? (
+        <ResultsScreen
+          questions={questions}
+          answers={answers}
+          correctCount={correctCount}
+          onReset={handleReset}
+        />
+      ) : (
+        <div className="p-4">
+          <p className="mb-4 text-lg font-medium">{currentQuestion.question}</p>
+          <div className="space-y-2">
+            {currentQuestion.options.map((option, optionIndex) => {
+              const isSelected = answers[currentQuestion.id] === optionIndex;
+
+              return (
+                <button
+                  key={optionIndex}
+                  onClick={() => handleSelectAnswer(optionIndex)}
+                  className={`flex w-full items-center gap-3 rounded-lg border p-3 text-left transition-colors ${
+                    isSelected ? 'bg-primary/10 border-primary' : 'hover:bg-muted'
+                  }`}
+                >
+                  <Circle
+                    className={`size-5 shrink-0 ${isSelected ? 'text-primary' : 'text-muted-foreground'}`}
+                  />
+                  <span>{option}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {hasAnswered && (
+            <div className="mt-4 flex justify-end">
+              <Button onClick={handleNext}>
+                {isLastQuestion ? 'See Results' : 'Next Question'}
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
 
-interface QuestionItemProps {
-  question: BlockQuizQuestion;
-  questionNumber: number;
-  selectedAnswer?: number;
-  onSelectAnswer: (optionIndex: number) => void;
-  submitted: boolean;
+interface ResultsScreenProps {
+  questions: BlockQuiz['questions'];
+  answers: Record<number, number>;
+  correctCount: number;
+  onReset: () => void;
 }
 
-function QuestionItem({ question, questionNumber, selectedAnswer, onSelectAnswer, submitted }: QuestionItemProps) {
+function ResultsScreen({ questions, answers, correctCount, onReset }: ResultsScreenProps) {
+  const percentage = Math.round((correctCount / questions.length) * 100);
+  const isPassing = percentage >= 70;
+
   return (
-    <div className="p-4">
-      <p className="mb-4 font-medium">
-        {questionNumber}. {question.question}
-      </p>
-      <div className="space-y-2">
-        {question.options.map((option, optionIndex) => {
-          const isSelected = selectedAnswer === optionIndex;
-          const isCorrect = optionIndex === question.correct_answer;
-          const showResult = submitted;
+    <div className="p-6">
+      <div className="mb-6 text-center">
+        <div
+          className={`mx-auto mb-3 flex size-16 items-center justify-center rounded-full ${
+            isPassing ? 'bg-green-100 dark:bg-green-900/30' : 'bg-orange-100 dark:bg-orange-900/30'
+          }`}
+        >
+          {isPassing ? (
+            <CheckCircle2 className="size-8 text-green-600" />
+          ) : (
+            <RotateCcw className="size-8 text-orange-600" />
+          )}
+        </div>
+        <h3 className="text-xl font-semibold">
+          {isPassing ? 'Great job!' : 'Keep practicing!'}
+        </h3>
+        <p className="text-muted-foreground mt-1">
+          You got {correctCount} out of {questions.length} correct ({percentage}%)
+        </p>
+      </div>
 
-          let bgColor = '';
-          let Icon = Circle;
-
-          if (showResult) {
-            if (isCorrect) {
-              bgColor = 'bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800';
-              Icon = CheckCircle2;
-            } else if (isSelected && !isCorrect) {
-              bgColor = 'bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800';
-              Icon = XCircle;
-            }
-          } else if (isSelected) {
-            bgColor = 'bg-primary/10 border-primary';
-          }
+      <div className="mb-6 space-y-3">
+        {questions.map((question, index) => {
+          const userAnswer = answers[question.id];
+          const isCorrect = userAnswer === question.correct_answer;
 
           return (
-            <button
-              key={optionIndex}
-              onClick={() => onSelectAnswer(optionIndex)}
-              disabled={submitted}
-              className={`flex w-full items-center gap-3 rounded-lg border p-3 text-left transition-colors ${bgColor} ${
-                !submitted && !isSelected ? 'hover:bg-muted' : ''
-              } ${submitted ? 'cursor-default' : 'cursor-pointer'}`}
+            <div
+              key={question.id}
+              className={`rounded-lg border p-3 ${
+                isCorrect
+                  ? 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-900/20'
+                  : 'border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/20'
+              }`}
             >
-              <Icon
-                className={`size-5 shrink-0 ${
-                  showResult && isCorrect
-                    ? 'text-green-600'
-                    : showResult && isSelected && !isCorrect
-                      ? 'text-red-600'
-                      : isSelected
-                        ? 'text-primary'
-                        : 'text-muted-foreground'
-                }`}
-              />
-              <span>{option}</span>
-            </button>
+              <div className="flex items-start gap-2">
+                {isCorrect ? (
+                  <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-green-600" />
+                ) : (
+                  <XCircle className="mt-0.5 size-4 shrink-0 text-red-600" />
+                )}
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium">
+                    {index + 1}. {question.question}
+                  </p>
+                  {!isCorrect && (
+                    <p className="text-muted-foreground mt-1 text-xs">
+                      Correct answer: {question.options[question.correct_answer]}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
           );
         })}
+      </div>
+
+      <div className="flex justify-center">
+        <Button onClick={onReset} variant="outline">
+          <RotateCcw className="mr-2 size-4" />
+          Try Again
+        </Button>
       </div>
     </div>
   );

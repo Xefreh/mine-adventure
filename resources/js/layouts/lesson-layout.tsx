@@ -13,6 +13,7 @@ interface LessonLayoutProps {
   nextLesson: Lesson | null;
   currentLessonNumber: number;
   totalLessons: number;
+  canComplete?: boolean;
 }
 
 export default function LessonLayout({
@@ -26,6 +27,7 @@ export default function LessonLayout({
   nextLesson,
   currentLessonNumber,
   totalLessons,
+  canComplete = true,
 }: PropsWithChildren<LessonLayoutProps>) {
   return (
     <AppHeaderLayout
@@ -46,6 +48,7 @@ export default function LessonLayout({
           nextLesson={nextLesson}
           currentLessonNumber={currentLessonNumber}
           totalLessons={totalLessons}
+          canComplete={canComplete}
         />
         <div className="flex-1">{children}</div>
       </div>
