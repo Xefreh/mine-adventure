@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import type { Chapter, Course, Lesson } from '@/types';
 import { Link, router } from '@inertiajs/react';
-import { Check, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Check, ChevronDown, ChevronLeft, ChevronRight, Lock } from 'lucide-react';
 import { useEffect } from 'react';
 
 interface LessonNavProps {
@@ -18,6 +18,7 @@ interface LessonNavProps {
   lesson: Lesson;
   chapters: Chapter[];
   completedLessonIds: number[];
+  accessibleLessonIds: number[];
   prevLesson: Lesson | null;
   nextLesson: Lesson | null;
   currentLessonNumber: number;
@@ -31,6 +32,7 @@ export function LessonNav({
   lesson,
   chapters,
   completedLessonIds,
+  accessibleLessonIds,
   prevLesson,
   nextLesson,
   currentLessonNumber,
@@ -83,10 +85,27 @@ export function LessonNav({
                 const chapterLessons = c.lessons || [];
                 const completedInChapter = chapterLessons.filter((l) => completedLessonIds.includes(l.id)).length;
                 const isCurrentChapter = c.id === chapter.id;
+                const firstAccessibleLesson = chapterLessons.find((l) => accessibleLessonIds.includes(l.id));
+                const isChapterAccessible = !!firstAccessibleLesson;
+
+                if (!isChapterAccessible) {
+                  return (
+                    <DropdownMenuItem key={c.id} disabled className="flex w-full justify-between opacity-50">
+                      <span className="flex items-center gap-2 truncate">
+                        <Lock className="size-3" />
+                        <span className="text-muted-foreground mr-2">{chapterIdx + 1}.</span>
+                        {c.name}
+                      </span>
+                      <span className="text-muted-foreground text-xs">
+                        {completedInChapter}/{chapterLessons.length}
+                      </span>
+                    </DropdownMenuItem>
+                  );
+                }
 
                 return (
                   <DropdownMenuItem key={c.id} asChild className={isCurrentChapter ? 'bg-accent' : ''}>
-                    <Link href={`/courses/${course.id}/lessons/${chapterLessons[0]?.id}`} className="flex w-full justify-between">
+                    <Link href={`/courses/${course.id}/lessons/${firstAccessibleLesson.id}`} className="flex w-full justify-between">
                       <span className="truncate">
                         <span className="text-muted-foreground mr-2">{chapterIdx + 1}.</span>
                         {c.name}
@@ -115,7 +134,20 @@ export function LessonNav({
               <DropdownMenuSeparator />
               {currentChapter?.lessons?.map((l, lessonIdx) => {
                 const isLessonCompleted = completedLessonIds.includes(l.id);
+                const isLessonAccessible = accessibleLessonIds.includes(l.id);
                 const isCurrentLesson = l.id === lesson.id;
+
+                if (!isLessonAccessible) {
+                  return (
+                    <DropdownMenuItem key={l.id} disabled className="flex w-full items-center gap-2 opacity-50">
+                      <Lock className="size-4 shrink-0" />
+                      <span className="truncate">
+                        <span className="text-muted-foreground mr-2">{lessonIdx + 1}.</span>
+                        {l.name}
+                      </span>
+                    </DropdownMenuItem>
+                  );
+                }
 
                 return (
                   <DropdownMenuItem key={l.id} asChild className={isCurrentLesson ? 'bg-accent' : ''}>

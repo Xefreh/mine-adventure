@@ -45,11 +45,14 @@ class CourseController extends Controller
         $completedLessons = count($completedLessonIds);
         $progressPercentage = $totalLessons > 0 ? round(($completedLessons / $totalLessons) * 100) : 0;
 
+        $accessibleLessonIds = $user->getAccessibleLessonIds($course);
+
+        // Next lesson is the first accessible but incomplete lesson
         $nextLesson = null;
         if ($completedLessons < $totalLessons) {
             foreach ($course->chapters as $chapter) {
                 foreach ($chapter->lessons as $lesson) {
-                    if (! in_array($lesson->id, $completedLessonIds)) {
+                    if (in_array($lesson->id, $accessibleLessonIds, true) && ! in_array($lesson->id, $completedLessonIds, true)) {
                         $nextLesson = $lesson;
                         break 2;
                     }
@@ -60,6 +63,7 @@ class CourseController extends Controller
         return Inertia::render('courses/show', [
             'course' => $course,
             'completedLessonIds' => $completedLessonIds,
+            'accessibleLessonIds' => $accessibleLessonIds,
             'progressPercentage' => $progressPercentage,
             'totalLessons' => $totalLessons,
             'completedLessons' => $completedLessons,

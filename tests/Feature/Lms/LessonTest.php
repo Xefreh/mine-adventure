@@ -83,6 +83,10 @@ test('lesson page includes previous and next lesson', function () {
     $lesson2 = Lesson::factory()->for($chapter)->create();
     $lesson3 = Lesson::factory()->for($chapter)->create();
 
+    // Complete lesson1 and lesson2 to access lesson2 and see lesson3 as next
+    LessonCompletion::factory()->for($user)->for($lesson1)->create();
+    LessonCompletion::factory()->for($user)->for($lesson2)->create();
+
     $this->actingAs($user)
         ->get("/courses/{$course->id}/lessons/{$lesson2->id}")
         ->assertOk()
@@ -100,6 +104,9 @@ test('first lesson has no previous lesson', function () {
     $lesson1 = Lesson::factory()->for($chapter)->create();
     $lesson2 = Lesson::factory()->for($chapter)->create();
 
+    // Complete lesson1 to make lesson2 accessible as nextLesson
+    LessonCompletion::factory()->for($user)->for($lesson1)->create();
+
     $this->actingAs($user)
         ->get("/courses/{$course->id}/lessons/{$lesson1->id}")
         ->assertOk()
@@ -116,6 +123,9 @@ test('last lesson has no next lesson', function () {
     $chapter = Chapter::factory()->for($course)->create();
     $lesson1 = Lesson::factory()->for($chapter)->create();
     $lesson2 = Lesson::factory()->for($chapter)->create();
+
+    // Complete lesson1 to access lesson2
+    LessonCompletion::factory()->for($user)->for($lesson1)->create();
 
     $this->actingAs($user)
         ->get("/courses/{$course->id}/lessons/{$lesson2->id}")
@@ -219,5 +229,86 @@ test('lesson show page reflects completion status', function () {
             ->component('lessons/show')
             ->has('completedLessonIds', 1)
             ->where('completedLessonIds.0', $lesson->id)
+        );
+});
+
+// Lesson Locking Tests
+
+test('first lesson is always accessible', function () {
+    $user = User::factory()->create();
+    $course = Course::factory()->create();
+    $chapter = Chapter::factory()->for($course)->create();
+    $lesson = Lesson::factory()->for($chapter)->create();
+
+    $this->actingAs($user)
+        ->get("/courses/{$course->id}/lessons/{$lesson->id}")
+        ->assertOk();
+});
+
+test('locked lesson redirects to course page', function () {
+    $user = User::factory()->create();
+    $course = Course::factory()->create();
+    $chapter = Chapter::factory()->for($course)->create();
+    $lesson1 = Lesson::factory()->for($chapter)->create();
+    $lesson2 = Lesson::factory()->for($chapter)->create();
+
+    // Try to access lesson2 without completing lesson1
+    $this->actingAs($user)
+        ->get("/courses/{$course->id}/lessons/{$lesson2->id}")
+        ->assertRedirect("/courses/{$course->id}");
+});
+
+test('lesson becomes accessible after previous is completed', function () {
+    $user = User::factory()->create();
+    $course = Course::factory()->create();
+    $chapter = Chapter::factory()->for($course)->create();
+    $lesson1 = Lesson::factory()->for($chapter)->create();
+    $lesson2 = Lesson::factory()->for($chapter)->create();
+
+    // Complete lesson1
+    LessonCompletion::factory()->for($user)->for($lesson1)->create();
+
+    // Now lesson2 should be accessible
+    $this->actingAs($user)
+        ->get("/courses/{$course->id}/lessons/{$lesson2->id}")
+        ->assertOk();
+});
+
+test('lesson page includes accessible lesson ids', function () {
+    $user = User::factory()->create();
+    $course = Course::factory()->create();
+    $chapter = Chapter::factory()->for($course)->create();
+    $lesson1 = Lesson::factory()->for($chapter)->create();
+    $lesson2 = Lesson::factory()->for($chapter)->create();
+    $lesson3 = Lesson::factory()->for($chapter)->create();
+
+    // Complete lesson1
+    LessonCompletion::factory()->for($user)->for($lesson1)->create();
+
+    $this->actingAs($user)
+        ->get("/courses/{$course->id}/lessons/{$lesson1->id}")
+        ->assertOk()
+        ->assertInertia(fn ($page) => $page
+            ->component('lessons/show')
+            ->has('accessibleLessonIds', 2)
+            ->where('accessibleLessonIds.0', $lesson1->id)
+            ->where('accessibleLessonIds.1', $lesson2->id)
+        );
+});
+
+test('course page includes accessible lesson ids', function () {
+    $user = User::factory()->create();
+    $course = Course::factory()->create();
+    $chapter = Chapter::factory()->for($course)->create();
+    $lesson1 = Lesson::factory()->for($chapter)->create();
+    $lesson2 = Lesson::factory()->for($chapter)->create();
+
+    $this->actingAs($user)
+        ->get("/courses/{$course->id}")
+        ->assertOk()
+        ->assertInertia(fn ($page) => $page
+            ->component('courses/show')
+            ->has('accessibleLessonIds', 1)
+            ->where('accessibleLessonIds.0', $lesson1->id)
         );
 });

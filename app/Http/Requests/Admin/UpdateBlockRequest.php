@@ -44,6 +44,8 @@ class UpdateBlockRequest extends FormRequest
             $rules['instructions'] = ['sometimes', 'string'];
             $rules['starter_code'] = ['nullable', 'string'];
             $rules['language'] = ['sometimes', 'string', 'max:50'];
+            $rules['test_class_name'] = ['nullable', 'string', 'max:255'];
+            $rules['test_file_content'] = ['nullable', 'string'];
         }
 
         return $rules;
