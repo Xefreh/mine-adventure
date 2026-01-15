@@ -9,6 +9,7 @@ interface LessonLayoutProps {
   lesson: Lesson;
   chapters: Chapter[];
   completedLessonIds: number[];
+  accessibleLessonIds: number[];
   prevLesson: Lesson | null;
   nextLesson: Lesson | null;
   currentLessonNumber: number;
@@ -23,6 +24,7 @@ export default function LessonLayout({
   lesson,
   chapters,
   completedLessonIds,
+  accessibleLessonIds,
   prevLesson,
   nextLesson,
   currentLessonNumber,
@@ -38,6 +40,7 @@ export default function LessonLayout({
           lesson={lesson}
           chapters={chapters}
           completedLessonIds={completedLessonIds}
+          accessibleLessonIds={accessibleLessonIds}
           prevLesson={prevLesson}
           nextLesson={nextLesson}
           currentLessonNumber={currentLessonNumber}

@@ -56,7 +56,6 @@ export default function AdminLessonsEdit({ chapter, lesson }: AdminLessonsEditPr
         lesson_id: lesson.id,
         type,
         position,
-        side: null,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       };
@@ -66,7 +65,7 @@ export default function AdminLessonsEdit({ chapter, lesson }: AdminLessonsEditPr
       } else if (type === 'text') {
         newBlock.text = { id: tempId, block_id: tempId, content: '' };
       } else if (type === 'assignment') {
-        newBlock.assignment = { id: tempId, block_id: tempId, instructions: '', starter_code: null };
+        newBlock.assignment = { id: tempId, block_id: tempId, instructions: '', starter_code: null, language: '' };
       } else if (type === 'resources') {
         newBlock.resource = { id: tempId, block_id: tempId, links: [] };
       } else if (type === 'quiz') {
@@ -127,6 +126,15 @@ export default function AdminLessonsEdit({ chapter, lesson }: AdminLessonsEditPr
           } else if (block.type === 'assignment' && block.assignment) {
             payload.instructions = block.assignment.instructions;
             payload.starter_code = block.assignment.starter_code;
+            payload.language = block.assignment.language;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const assignment = block.assignment as any;
+            if (assignment.test_class_name) {
+              payload.test_class_name = assignment.test_class_name;
+            }
+            if (assignment.test_file_content) {
+              payload.test_file_content = assignment.test_file_content;
+            }
           } else if (block.type === 'resources' && block.resource) {
             payload.links = block.resource.links;
           }
@@ -155,6 +163,15 @@ export default function AdminLessonsEdit({ chapter, lesson }: AdminLessonsEditPr
           } else if (block.type === 'assignment' && block.assignment) {
             data.instructions = block.assignment.instructions;
             data.starter_code = block.assignment.starter_code;
+            data.language = block.assignment.language;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const assignment = block.assignment as any;
+            if (assignment.test_class_name !== undefined) {
+              data.test_class_name = assignment.test_class_name;
+            }
+            if (assignment.test_file_content !== undefined) {
+              data.test_file_content = assignment.test_file_content;
+            }
           } else if (block.type === 'resources' && block.resource) {
             data.links = block.resource.links;
           } else if (block.type === 'quiz' && block.quiz) {

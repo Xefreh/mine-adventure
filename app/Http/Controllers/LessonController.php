@@ -12,8 +12,17 @@ use Inertia\Response;
 
 class LessonController extends Controller
 {
-    public function show(Course $course, Lesson $lesson): Response
+    public function show(Course $course, Lesson $lesson): Response|RedirectResponse
     {
+        $user = Auth::user();
+
+        // Check if user can access this lesson
+        if (! $user->canAccessLesson($lesson)) {
+            return redirect()
+                ->route('courses.show', $course)
+                ->with('error', 'You must complete previous lessons first.');
+        }
+
         $lesson->load([
             'blocks' => fn ($query) => $query->orderBy('position'),
             'blocks.video',
@@ -30,17 +39,24 @@ class LessonController extends Controller
             'chapters.lessons',
         ]);
 
-        $user = Auth::user();
         $completedLessonIds = $user->lessonCompletions()
             ->whereHas('lesson.chapter', fn ($query) => $query->where('course_id', $course->id))
             ->pluck('lesson_id')
             ->toArray();
 
+        $accessibleLessonIds = $user->getAccessibleLessonIds($course);
+
         $allLessons = $course->chapters->flatMap->lessons;
         $currentIndex = $allLessons->search(fn ($l) => $l->id === $lesson->id);
 
+        // Only show prev/next if they are accessible
         $prevLesson = $currentIndex > 0 ? $allLessons[$currentIndex - 1] : null;
         $nextLesson = $currentIndex < $allLessons->count() - 1 ? $allLessons[$currentIndex + 1] : null;
+
+        // Filter to only accessible lessons
+        if ($nextLesson && ! in_array($nextLesson->id, $accessibleLessonIds, true)) {
+            $nextLesson = null;
+        }
 
         $totalLessons = $allLessons->count();
         $currentLessonNumber = $currentIndex + 1;
@@ -50,6 +66,7 @@ class LessonController extends Controller
             'lesson' => $lesson,
             'chapters' => $course->chapters,
             'completedLessonIds' => $completedLessonIds,
+            'accessibleLessonIds' => $accessibleLessonIds,
             'prevLesson' => $prevLesson,
             'nextLesson' => $nextLesson,
             'currentLessonNumber' => $currentLessonNumber,

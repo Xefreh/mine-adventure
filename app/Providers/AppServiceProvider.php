@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Xefreh\Judge0PhpClient\Enums\Environment;
+use Xefreh\Judge0PhpClient\Cache\ArrayCache;
 use Xefreh\Judge0PhpClient\Judge0Client;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,9 +17,7 @@ class AppServiceProvider extends ServiceProvider
             return new Judge0Client(
                 apiHost: config('judge0.api_host'),
                 apiKey: config('judge0.api_key'),
-                environment: config('judge0.environment') === 'production'
-                    ? Environment::Production
-                    : Environment::Development,
+                cache: new ArrayCache,
             );
         });
     }

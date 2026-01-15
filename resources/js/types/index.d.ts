@@ -138,16 +138,14 @@ export interface BlockAssignment {
   starter_code: string | null;
   solution?: string | null;
   language: string;
-  tests?: BlockAssignmentTest[];
+  test?: BlockAssignmentTest | null;
 }
 
 export interface BlockAssignmentTest {
   id: number;
   block_assignment_id: number;
-  stdin?: string | null;
-  expected_output?: string | null;
-  file_content?: string | null;
-  class_name?: string | null;
+  file_content: string;
+  class_name: string;
 }
 
 export interface BlockQuiz {

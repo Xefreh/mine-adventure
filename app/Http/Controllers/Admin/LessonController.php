@@ -50,7 +50,7 @@ class LessonController extends Controller
             'blocks.text',
             'blocks.resource',
             'blocks.assignment',
-            'blocks.assignment.tests',
+            'blocks.assignment.test',
             'blocks.quiz',
             'blocks.quiz.questions',
         ]);

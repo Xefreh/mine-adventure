@@ -13,6 +13,7 @@ interface LessonShowProps {
   lesson: Lesson;
   chapters: Chapter[];
   completedLessonIds: number[];
+  accessibleLessonIds: number[];
   prevLesson: Lesson | null;
   nextLesson: Lesson | null;
   currentLessonNumber: number;
@@ -24,6 +25,7 @@ export default function LessonShow({
   lesson,
   chapters,
   completedLessonIds,
+  accessibleLessonIds,
   prevLesson,
   nextLesson,
   currentLessonNumber,
@@ -56,6 +58,7 @@ export default function LessonShow({
       lesson={lesson}
       chapters={chapters}
       completedLessonIds={completedLessonIds}
+      accessibleLessonIds={accessibleLessonIds}
       prevLesson={prevLesson}
       nextLesson={nextLesson}
       currentLessonNumber={currentLessonNumber}

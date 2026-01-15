@@ -45,6 +45,8 @@ class StoreBlockRequest extends FormRequest
             $rules['instructions'] = ['nullable', 'string'];
             $rules['starter_code'] = ['nullable', 'string'];
             $rules['language'] = ['nullable', 'string', 'max:50'];
+            $rules['test_class_name'] = ['nullable', 'string', 'max:255'];
+            $rules['test_file_content'] = ['nullable', 'string'];
         }
 
         return $rules;
