@@ -79,14 +79,7 @@ php phpunit.phar --testdox --colors=never tests/
 BASH;
 
         $solutionCode = "<?php\n{$userCode}\n";
-
         $testContent = $test->file_content;
-        // Replace relative path to solution with absolute path
-        $testContent = str_replace(
-            ["__DIR__ . '/../solution.php'", '__DIR__ . "/../solution.php"'],
-            "'/box/solution.php'",
-            $testContent
-        );
 
         Log::info('Building archive', [
             'solution_code' => $solutionCode,
