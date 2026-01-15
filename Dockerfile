@@ -1,71 +1,7 @@
-# Stage 1: Install PHP dependencies and generate Wayfinder types
-FROM php:8.4-cli-alpine AS php-base
+# Stage 1: Build PHP base with extensions (reused by other stages)
+FROM php:8.4-fpm-alpine AS php-base
 
-# Install system dependencies for composer
-RUN apk add --no-cache \
-    curl \
-    libzip-dev \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    freetype-dev \
-    oniguruma-dev \
-    libxml2-dev \
-    icu-dev \
-    postgresql-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
-        pdo_pgsql \
-        pgsql \
-        mbstring \
-        xml \
-        bcmath \
-        gd \
-        zip \
-        intl \
-        opcache \
-        pcntl
-
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-WORKDIR /app
-
-# Copy composer files and install dependencies
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
-
-# Copy application files
-COPY . .
-
-# Generate autoloader
-RUN composer dump-autoload --optimize
-
-# Generate Wayfinder types
-RUN php artisan wayfinder:generate --with-form
-
-# Stage 2: Build frontend assets
-FROM node:20-alpine AS frontend
-
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm ci
-
-# Copy source files
-COPY resources ./resources
-COPY vite.config.ts tsconfig.json components.json ./
-COPY public ./public
-
-# Copy generated Wayfinder types from PHP stage
-COPY --from=php-base /app/resources/js/actions ./resources/js/actions
-COPY --from=php-base /app/resources/js/routes ./resources/js/routes
-
-RUN npm run build
-
-# Stage 3: Final PHP application
-FROM php:8.4-fpm-alpine
-
-# Install system dependencies
+# Install system dependencies and PHP extensions
 RUN apk add --no-cache \
     nginx \
     supervisor \
@@ -78,6 +14,7 @@ RUN apk add --no-cache \
     libxml2-dev \
     icu-dev \
     postgresql-dev \
+    libpq \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
         pdo_pgsql \
@@ -94,9 +31,43 @@ RUN apk add --no-cache \
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Stage 2: Generate Wayfinder types
+FROM php-base AS wayfinder
+
 WORKDIR /app
 
-# Copy composer files first for better caching
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
+
+COPY . .
+
+RUN composer dump-autoload --optimize \
+    && php artisan wayfinder:generate --with-form
+
+# Stage 3: Build frontend assets
+FROM node:20-alpine AS frontend
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY resources ./resources
+COPY vite.config.ts tsconfig.json components.json ./
+COPY public ./public
+
+# Copy generated Wayfinder types
+COPY --from=wayfinder /app/resources/js/actions ./resources/js/actions
+COPY --from=wayfinder /app/resources/js/routes ./resources/js/routes
+
+RUN npm run build
+
+# Stage 4: Final image
+FROM php-base AS final
+
+WORKDIR /app
+
+# Copy composer files and install dependencies
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 
@@ -106,7 +77,7 @@ COPY . .
 # Copy built frontend assets
 COPY --from=frontend /app/public/build ./public/build
 
-# Generate autoloader and run scripts
+# Generate autoloader
 RUN composer dump-autoload --optimize \
     && composer run-script post-autoload-dump
 
