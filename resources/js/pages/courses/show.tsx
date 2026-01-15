@@ -3,11 +3,12 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Course, Lesson } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { BookOpen, Check, ChevronRight, Clock, Play } from 'lucide-react';
+import { BookOpen, Check, ChevronRight, Clock, Lock, Play } from 'lucide-react';
 
 interface CourseShowProps {
   course: Course;
   completedLessonIds: number[];
+  accessibleLessonIds: number[];
   progressPercentage: number;
   totalLessons: number;
   completedLessons: number;
@@ -23,6 +24,7 @@ const difficultyColors = {
 export default function CourseShow({
   course,
   completedLessonIds,
+  accessibleLessonIds,
   progressPercentage,
   totalLessons,
   completedLessons,
@@ -128,6 +130,22 @@ export default function CourseShow({
                     <div className="space-y-2 pl-11">
                       {chapterLessons.map((lesson) => {
                         const isLessonCompleted = completedLessonIds.includes(lesson.id);
+                        const isLessonAccessible = accessibleLessonIds.includes(lesson.id);
+
+                        if (!isLessonAccessible) {
+                          return (
+                            <div
+                              key={lesson.id}
+                              className="flex items-center justify-between rounded-md p-2 opacity-50 cursor-not-allowed"
+                            >
+                              <div className="flex items-center gap-3">
+                                <Lock className="size-4 text-muted-foreground" />
+                                <span className="text-muted-foreground">{lesson.name}</span>
+                              </div>
+                            </div>
+                          );
+                        }
+
                         return (
                           <Link
                             key={lesson.id}

@@ -70,7 +70,26 @@ class CourseSeeder extends Seeder
                                 'name' => 'Your First PHP Script',
                                 'blocks' => [
                                     ['type' => 'text', 'content' => "## Writing Your First PHP Script\n\nLet's write your very first PHP program! By tradition, we'll start with the famous \"Hello World\" example.\n\n### PHP Tags\n\nPHP code is enclosed within special tags: `<?php` and `?>`. Everything between these tags is processed as PHP code."],
-                                    ['type' => 'assignment', 'language' => 'php', 'instructions' => "Create a PHP script that outputs \"Hello, World!\" to the browser.\n\n**Requirements:**\n1. Use the `echo` statement to output text\n2. End your statement with a semicolon\n3. Make sure to include the opening PHP tag", 'starter_code' => "<?php\n// Write your code below\n\n", 'solution' => "<?php\necho \"Hello, World!\";\n", 'tests' => [['stdin' => '', 'expected_output' => 'Hello, World!']]],
+                                    ['type' => 'assignment', 'language' => 'php', 'instructions' => "Create a PHP script that outputs \"Hello, World!\" to the browser.\n\n**Requirements:**\n1. Use the `echo` statement to output text\n2. End your statement with a semicolon\n3. Make sure to include the opening PHP tag", 'starter_code' => "<?php\n// Write your code below\n\n", 'solution' => "<?php\necho \"Hello, World!\";\n", 'test' => [
+                                        'class_name' => 'HelloWorldTest',
+                                        'file_content' => <<<'PHPUNIT'
+<?php
+
+use PHPUnit\Framework\TestCase;
+
+class HelloWorldTest extends TestCase
+{
+    public function test_outputs_hello_world(): void
+    {
+        ob_start();
+        include __DIR__ . '/../solution.php';
+        $output = ob_get_clean();
+
+        $this->assertEquals('Hello, World!', trim($output));
+    }
+}
+PHPUNIT
+                                    ]],
                                 ],
                             ],
                             [
@@ -93,7 +112,44 @@ class CourseSeeder extends Seeder
                                 'name' => 'Understanding Variables',
                                 'blocks' => [
                                     ['type' => 'text', 'content' => "## Variables in PHP\n\nVariables are containers for storing data values. In PHP, a variable starts with the `\$` sign, followed by the name of the variable.\n\n### Variable Naming Rules\n\n- Must start with a letter or underscore\n- Cannot start with a number\n- Can only contain letters, numbers, and underscores\n- Are case-sensitive (`\$name` and `\$NAME` are different)"],
-                                    ['type' => 'assignment', 'language' => 'php', 'instructions' => "Practice creating variables by completing the following tasks:\n\n1. Create a variable called `\$name` and assign your name to it\n2. Create a variable called `\$age` and assign your age\n3. Create a variable called `\$isStudent` and assign a boolean value\n4. Echo all three variables", 'starter_code' => "<?php\n// Create your variables below\n\$name = \"\";\n\$age = 0;\n\$isStudent = true;\n\n// Output the variables\necho \"Name: \" . \$name;\n", 'solution' => "<?php\n// Create your variables below\n\$name = \"John\";\n\$age = 25;\n\$isStudent = true;\n\n// Output the variables\necho \"Name: \" . \$name . \"\\n\";\necho \"Age: \" . \$age . \"\\n\";\necho \"Is Student: \" . (\$isStudent ? \"Yes\" : \"No\");\n", 'tests' => [['stdin' => '', 'expected_output' => "Name: John\nAge: 25\nIs Student: Yes"]]],
+                                    ['type' => 'assignment', 'language' => 'php', 'instructions' => "Practice creating variables by completing the following tasks:\n\n1. Create a variable called `\$name` and assign your name to it\n2. Create a variable called `\$age` and assign your age\n3. Create a variable called `\$isStudent` and assign a boolean value\n4. Echo all three variables", 'starter_code' => "<?php\n// Create your variables below\n\$name = \"\";\n\$age = 0;\n\$isStudent = true;\n\n// Output the variables\necho \"Name: \" . \$name;\n", 'solution' => "<?php\n// Create your variables below\n\$name = \"John\";\n\$age = 25;\n\$isStudent = true;\n\n// Output the variables\necho \"Name: \" . \$name . \"\\n\";\necho \"Age: \" . \$age . \"\\n\";\necho \"Is Student: \" . (\$isStudent ? \"Yes\" : \"No\");\n", 'test' => [
+                                        'class_name' => 'VariablesTest',
+                                        'file_content' => <<<'PHPUNIT'
+<?php
+
+use PHPUnit\Framework\TestCase;
+
+class VariablesTest extends TestCase
+{
+    public function test_outputs_name(): void
+    {
+        ob_start();
+        include __DIR__ . '/../solution.php';
+        $output = ob_get_clean();
+
+        $this->assertStringContainsString('Name:', $output);
+    }
+
+    public function test_outputs_age(): void
+    {
+        ob_start();
+        include __DIR__ . '/../solution.php';
+        $output = ob_get_clean();
+
+        $this->assertStringContainsString('Age:', $output);
+    }
+
+    public function test_outputs_student_status(): void
+    {
+        ob_start();
+        include __DIR__ . '/../solution.php';
+        $output = ob_get_clean();
+
+        $this->assertStringContainsString('Is Student:', $output);
+    }
+}
+PHPUNIT
+                                    ]],
                                 ],
                             ],
                             [
@@ -111,7 +167,42 @@ class CourseSeeder extends Seeder
                                 'name' => 'Arrays in PHP',
                                 'blocks' => [
                                     ['type' => 'text', 'content' => "## Introduction to Arrays\n\nArrays are used to store multiple values in a single variable. PHP supports three types of arrays:\n\n- **Indexed arrays:** Arrays with numeric indexes\n- **Associative arrays:** Arrays with named keys\n- **Multidimensional arrays:** Arrays containing other arrays"],
-                                    ['type' => 'assignment', 'language' => 'php', 'instructions' => "Create different types of arrays:\n\n1. Create an indexed array of 5 fruits\n2. Create an associative array representing a person (name, age, city)\n3. Loop through each array and print the values", 'starter_code' => "<?php\n// Indexed array of fruits\n\$fruits = [\"apple\", \"banana\", \"orange\"];\n\n// Associative array\n\$person = [\n    \"name\" => \"\",\n    \"age\" => 0,\n    \"city\" => \"\"\n];\n\n// Loop through fruits\nforeach (\$fruits as \$fruit) {\n    echo \$fruit . \"\\n\";\n}\n", 'solution' => "<?php\n// Indexed array of fruits\n\$fruits = [\"apple\", \"banana\", \"orange\", \"grape\", \"mango\"];\n\n// Associative array\n\$person = [\n    \"name\" => \"John\",\n    \"age\" => 25,\n    \"city\" => \"New York\"\n];\n\n// Loop through fruits\necho \"Fruits:\\n\";\nforeach (\$fruits as \$fruit) {\n    echo \"- \" . \$fruit . \"\\n\";\n}\n\n// Loop through person\necho \"\\nPerson:\\n\";\nforeach (\$person as \$key => \$value) {\n    echo \$key . \": \" . \$value . \"\\n\";\n}\n", 'tests' => [['stdin' => '', 'expected_output' => "Fruits:\n- apple\n- banana\n- orange\n- grape\n- mango\n\nPerson:\nname: John\nage: 25\ncity: New York"]]],
+                                    ['type' => 'assignment', 'language' => 'php', 'instructions' => "Create different types of arrays:\n\n1. Create an indexed array of 5 fruits\n2. Create an associative array representing a person (name, age, city)\n3. Loop through each array and print the values", 'starter_code' => "<?php\n// Indexed array of fruits\n\$fruits = [\"apple\", \"banana\", \"orange\"];\n\n// Associative array\n\$person = [\n    \"name\" => \"\",\n    \"age\" => 0,\n    \"city\" => \"\"\n];\n\n// Loop through fruits\nforeach (\$fruits as \$fruit) {\n    echo \$fruit . \"\\n\";\n}\n", 'solution' => "<?php\n// Indexed array of fruits\n\$fruits = [\"apple\", \"banana\", \"orange\", \"grape\", \"mango\"];\n\n// Associative array\n\$person = [\n    \"name\" => \"John\",\n    \"age\" => 25,\n    \"city\" => \"New York\"\n];\n\n// Loop through fruits\necho \"Fruits:\\n\";\nforeach (\$fruits as \$fruit) {\n    echo \"- \" . \$fruit . \"\\n\";\n}\n\n// Loop through person\necho \"\\nPerson:\\n\";\nforeach (\$person as \$key => \$value) {\n    echo \$key . \": \" . \$value . \"\\n\";\n}\n", 'test' => [
+                                        'class_name' => 'ArraysTest',
+                                        'file_content' => <<<'PHPUNIT'
+<?php
+
+use PHPUnit\Framework\TestCase;
+
+class ArraysTest extends TestCase
+{
+    private string $output;
+
+    protected function setUp(): void
+    {
+        ob_start();
+        include __DIR__ . '/../solution.php';
+        $this->output = ob_get_clean();
+    }
+
+    public function test_has_five_fruits(): void
+    {
+        $this->assertStringContainsString('Fruits:', $this->output);
+        // Count fruit entries (lines starting with "- ")
+        preg_match_all('/^- \w+/m', $this->output, $matches);
+        $this->assertGreaterThanOrEqual(5, count($matches[0]), 'Should have at least 5 fruits');
+    }
+
+    public function test_has_person_array(): void
+    {
+        $this->assertStringContainsString('Person:', $this->output);
+        $this->assertStringContainsString('name:', $this->output);
+        $this->assertStringContainsString('age:', $this->output);
+        $this->assertStringContainsString('city:', $this->output);
+    }
+}
+PHPUNIT
+                                    ]],
                                     ['type' => 'quiz', 'questions' => [
                                         ['question' => 'How do you create an indexed array in PHP?', 'options' => ['$arr = [1, 2, 3]', '$arr = array(1, 2, 3)', 'Both of the above', '$arr = {1, 2, 3}'], 'correct' => 2],
                                     ]],
@@ -137,14 +228,53 @@ class CourseSeeder extends Seeder
                                 'blocks' => [
                                     ['type' => 'video', 'url' => 'https://www.youtube.com/watch?v=LZzxWpBZrZg', 'duration' => 540],
                                     ['type' => 'text', 'content' => "## Conditional Statements with If\n\nThe `if` statement executes code if a specified condition is true.\n\n### Syntax\n\n```php\nif (condition) {\n    // code to execute if condition is true\n} elseif (another_condition) {\n    // code for another condition\n} else {\n    // code if no conditions are true\n}\n```"],
-                                    ['type' => 'assignment', 'language' => 'php', 'instructions' => "Write a program that checks a student's grade:\n\n- 90-100: Output \"A - Excellent!\"\n- 80-89: Output \"B - Good job!\"\n- 70-79: Output \"C - Satisfactory\"\n- 60-69: Output \"D - Needs improvement\"\n- Below 60: Output \"F - Failed\"", 'starter_code' => "<?php\n\$grade = 85;\n\n// Write your if statements below\nif (\$grade >= 90) {\n    echo \"A - Excellent!\";\n}\n// Continue with elseif and else...\n", 'solution' => "<?php\n\$grade = 85;\n\nif (\$grade >= 90) {\n    echo \"A - Excellent!\";\n} elseif (\$grade >= 80) {\n    echo \"B - Good job!\";\n} elseif (\$grade >= 70) {\n    echo \"C - Satisfactory\";\n} elseif (\$grade >= 60) {\n    echo \"D - Needs improvement\";\n} else {\n    echo \"F - Failed\";\n}\n", 'tests' => [['stdin' => '', 'expected_output' => 'B - Good job!']]],
+                                    ['type' => 'assignment', 'language' => 'php', 'instructions' => "Write a program that checks a student's grade:\n\n- 90-100: Output \"A - Excellent!\"\n- 80-89: Output \"B - Good job!\"\n- 70-79: Output \"C - Satisfactory\"\n- 60-69: Output \"D - Needs improvement\"\n- Below 60: Output \"F - Failed\"", 'starter_code' => "<?php\n\$grade = 85;\n\n// Write your if statements below\nif (\$grade >= 90) {\n    echo \"A - Excellent!\";\n}\n// Continue with elseif and else...\n", 'solution' => "<?php\n\$grade = 85;\n\nif (\$grade >= 90) {\n    echo \"A - Excellent!\";\n} elseif (\$grade >= 80) {\n    echo \"B - Good job!\";\n} elseif (\$grade >= 70) {\n    echo \"C - Satisfactory\";\n} elseif (\$grade >= 60) {\n    echo \"D - Needs improvement\";\n} else {\n    echo \"F - Failed\";\n}\n", 'test' => [
+                                        'class_name' => 'GradeCheckerTest',
+                                        'file_content' => <<<'PHPUNIT'
+<?php
+
+use PHPUnit\Framework\TestCase;
+
+class GradeCheckerTest extends TestCase
+{
+    public function test_grade_85_returns_b(): void
+    {
+        ob_start();
+        include __DIR__ . '/../solution.php';
+        $output = ob_get_clean();
+
+        $this->assertStringContainsString('B', $output);
+        $this->assertStringContainsString('Good job', $output);
+    }
+}
+PHPUNIT
+                                    ]],
                                 ],
                             ],
                             [
                                 'name' => 'Switch Statements',
                                 'blocks' => [
                                     ['type' => 'text', 'content' => "## Switch Statements\n\nThe `switch` statement is used to perform different actions based on different conditions. It's an alternative to multiple `if...elseif` statements.\n\n### When to Use Switch\n\nUse switch when you have a single variable that you want to compare against multiple possible values."],
-                                    ['type' => 'assignment', 'language' => 'php', 'instructions' => "Create a switch statement that outputs the day of the week based on a number (1-7):\n\n1 = Monday, 2 = Tuesday, etc.\n\nInclude a default case for invalid numbers.", 'starter_code' => "<?php\n\$dayNumber = 3;\n\nswitch (\$dayNumber) {\n    case 1:\n        echo \"Monday\";\n        break;\n    // Add more cases...\n}\n", 'solution' => "<?php\n\$dayNumber = 3;\n\nswitch (\$dayNumber) {\n    case 1:\n        echo \"Monday\";\n        break;\n    case 2:\n        echo \"Tuesday\";\n        break;\n    case 3:\n        echo \"Wednesday\";\n        break;\n    case 4:\n        echo \"Thursday\";\n        break;\n    case 5:\n        echo \"Friday\";\n        break;\n    case 6:\n        echo \"Saturday\";\n        break;\n    case 7:\n        echo \"Sunday\";\n        break;\n    default:\n        echo \"Invalid day number\";\n}\n", 'tests' => [['stdin' => '', 'expected_output' => 'Wednesday']]],
+                                    ['type' => 'assignment', 'language' => 'php', 'instructions' => "Create a switch statement that outputs the day of the week based on a number (1-7):\n\n1 = Monday, 2 = Tuesday, etc.\n\nInclude a default case for invalid numbers.", 'starter_code' => "<?php\n\$dayNumber = 3;\n\nswitch (\$dayNumber) {\n    case 1:\n        echo \"Monday\";\n        break;\n    // Add more cases...\n}\n", 'solution' => "<?php\n\$dayNumber = 3;\n\nswitch (\$dayNumber) {\n    case 1:\n        echo \"Monday\";\n        break;\n    case 2:\n        echo \"Tuesday\";\n        break;\n    case 3:\n        echo \"Wednesday\";\n        break;\n    case 4:\n        echo \"Thursday\";\n        break;\n    case 5:\n        echo \"Friday\";\n        break;\n    case 6:\n        echo \"Saturday\";\n        break;\n    case 7:\n        echo \"Sunday\";\n        break;\n    default:\n        echo \"Invalid day number\";\n}\n", 'test' => [
+                                        'class_name' => 'DayOfWeekTest',
+                                        'file_content' => <<<'PHPUNIT'
+<?php
+
+use PHPUnit\Framework\TestCase;
+
+class DayOfWeekTest extends TestCase
+{
+    public function test_day_3_returns_wednesday(): void
+    {
+        ob_start();
+        include __DIR__ . '/../solution.php';
+        $output = ob_get_clean();
+
+        $this->assertEquals('Wednesday', trim($output));
+    }
+}
+PHPUNIT
+                                    ]],
                                 ],
                             ],
                             [
@@ -152,7 +282,41 @@ class CourseSeeder extends Seeder
                                 'blocks' => [
                                     ['type' => 'video', 'url' => 'https://www.youtube.com/watch?v=c_oLnP8vViM', 'duration' => 780],
                                     ['type' => 'text', 'content' => "## Loops in PHP\n\nLoops are used to execute the same block of code repeatedly.\n\n### For Loop\n\nUse `for` when you know how many times you want to loop.\n\n### While Loop\n\nUse `while` when you want to loop until a condition becomes false."],
-                                    ['type' => 'assignment', 'language' => 'php', 'instructions' => "Complete both tasks:\n\n1. Use a for loop to print numbers 1 to 10\n2. Use a while loop to print the first 5 even numbers", 'starter_code' => "<?php\n// Task 1: For loop (1 to 10)\nfor (\$i = 1; \$i <= 10; \$i++) {\n    echo \$i . \" \";\n}\n\necho \"\\n\";\n\n// Task 2: While loop (first 5 even numbers)\n\$count = 0;\n\$num = 2;\nwhile (\$count < 5) {\n    // Your code here\n}\n", 'solution' => "<?php\n// Task 1: For loop (1 to 10)\nfor (\$i = 1; \$i <= 10; \$i++) {\n    echo \$i . \" \";\n}\n\necho \"\\n\";\n\n// Task 2: While loop (first 5 even numbers)\n\$count = 0;\n\$num = 2;\nwhile (\$count < 5) {\n    echo \$num . \" \";\n    \$num += 2;\n    \$count++;\n}\n", 'tests' => [['stdin' => '', 'expected_output' => "1 2 3 4 5 6 7 8 9 10 \n2 4 6 8 10 "]]],
+                                    ['type' => 'assignment', 'language' => 'php', 'instructions' => "Complete both tasks:\n\n1. Use a for loop to print numbers 1 to 10\n2. Use a while loop to print the first 5 even numbers", 'starter_code' => "<?php\n// Task 1: For loop (1 to 10)\nfor (\$i = 1; \$i <= 10; \$i++) {\n    echo \$i . \" \";\n}\n\necho \"\\n\";\n\n// Task 2: While loop (first 5 even numbers)\n\$count = 0;\n\$num = 2;\nwhile (\$count < 5) {\n    // Your code here\n}\n", 'solution' => "<?php\n// Task 1: For loop (1 to 10)\nfor (\$i = 1; \$i <= 10; \$i++) {\n    echo \$i . \" \";\n}\n\necho \"\\n\";\n\n// Task 2: While loop (first 5 even numbers)\n\$count = 0;\n\$num = 2;\nwhile (\$count < 5) {\n    echo \$num . \" \";\n    \$num += 2;\n    \$count++;\n}\n", 'test' => [
+                                        'class_name' => 'LoopsTest',
+                                        'file_content' => <<<'PHPUNIT'
+<?php
+
+use PHPUnit\Framework\TestCase;
+
+class LoopsTest extends TestCase
+{
+    private string $output;
+
+    protected function setUp(): void
+    {
+        ob_start();
+        include __DIR__ . '/../solution.php';
+        $this->output = ob_get_clean();
+    }
+
+    public function test_for_loop_prints_1_to_10(): void
+    {
+        for ($i = 1; $i <= 10; $i++) {
+            $this->assertStringContainsString((string) $i, $this->output);
+        }
+    }
+
+    public function test_while_loop_prints_first_5_even_numbers(): void
+    {
+        $evenNumbers = [2, 4, 6, 8, 10];
+        foreach ($evenNumbers as $num) {
+            $this->assertStringContainsString((string) $num, $this->output);
+        }
+    }
+}
+PHPUNIT
+                                    ]],
                                 ],
                             ],
                             [
@@ -590,7 +754,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Create an assignment with optional tests.
+     * Create an assignment with optional test.
      *
      * @param  array<string, mixed>  $blockData
      */
@@ -604,14 +768,12 @@ class ProductController extends Controller
             'language' => $blockData['language'] ?? 'php',
         ]);
 
-        if (isset($blockData['tests'])) {
-            foreach ($blockData['tests'] as $testData) {
-                BlockAssignmentTest::create([
-                    'block_assignment_id' => $assignment->id,
-                    'stdin' => $testData['stdin'] ?? null,
-                    'expected_output' => $testData['expected_output'] ?? null,
-                ]);
-            }
+        if (isset($blockData['test'])) {
+            BlockAssignmentTest::create([
+                'block_assignment_id' => $assignment->id,
+                'file_content' => $blockData['test']['file_content'],
+                'class_name' => $blockData['test']['class_name'],
+            ]);
         }
 
         return $assignment;

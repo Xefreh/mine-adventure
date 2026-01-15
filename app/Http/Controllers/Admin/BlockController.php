@@ -94,11 +94,7 @@ class BlockController extends Controller
             BlockType::Resources => $block->resource()->create([
                 'links' => $data['links'] ?? [],
             ]),
-            BlockType::Assignment => $block->assignment()->create([
-                'instructions' => $data['instructions'] ?? '',
-                'starter_code' => $data['starter_code'] ?? null,
-                'language' => $data['language'] ?? 'php',
-            ]),
+            BlockType::Assignment => $this->createAssignmentBlock($block, $data),
             BlockType::Quiz => $block->quiz()->create([]),
         };
     }
@@ -119,12 +115,55 @@ class BlockController extends Controller
             BlockType::Resources => $block->resource?->update([
                 'links' => $data['links'] ?? $block->resource->links,
             ]),
-            BlockType::Assignment => $block->assignment?->update([
-                'instructions' => $data['instructions'] ?? $block->assignment->instructions,
-                'starter_code' => $data['starter_code'] ?? $block->assignment->starter_code,
-                'language' => $data['language'] ?? $block->assignment->language,
-            ]),
+            BlockType::Assignment => $this->updateAssignmentBlock($block, $data),
             BlockType::Quiz => null,
         };
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    private function createAssignmentBlock(LessonBlock $block, array $data): void
+    {
+        $assignment = $block->assignment()->create([
+            'instructions' => $data['instructions'] ?? '',
+            'starter_code' => $data['starter_code'] ?? null,
+            'language' => $data['language'] ?? 'php',
+        ]);
+
+        if (! empty($data['test_class_name']) && ! empty($data['test_file_content'])) {
+            $assignment->test()->create([
+                'class_name' => $data['test_class_name'],
+                'file_content' => $data['test_file_content'],
+            ]);
+        }
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    private function updateAssignmentBlock(LessonBlock $block, array $data): void
+    {
+        if (! $block->assignment) {
+            return;
+        }
+
+        $block->assignment->update([
+            'instructions' => $data['instructions'] ?? $block->assignment->instructions,
+            'starter_code' => $data['starter_code'] ?? $block->assignment->starter_code,
+            'language' => $data['language'] ?? $block->assignment->language,
+        ]);
+
+        $hasTestData = ! empty($data['test_class_name']) || ! empty($data['test_file_content']);
+
+        if ($hasTestData) {
+            $block->assignment->test()->updateOrCreate(
+                ['block_assignment_id' => $block->assignment->id],
+                [
+                    'class_name' => $data['test_class_name'] ?? $block->assignment->test?->class_name ?? '',
+                    'file_content' => $data['test_file_content'] ?? $block->assignment->test?->file_content ?? '',
+                ]
+            );
+        }
     }
 }

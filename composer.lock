@@ -6353,15 +6353,16 @@
       "source": {
         "type": "git",
         "url": "https://github.com/Xefreh/judge0-php-client.git",
-        "reference": "6db21c47c0e9107524386ec7bafd8985690b1cce"
+        "reference": "6f78d99bbdd3939bb4159113a52cfca89eb3d763"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/Xefreh/judge0-php-client/zipball/6db21c47c0e9107524386ec7bafd8985690b1cce",
-        "reference": "6db21c47c0e9107524386ec7bafd8985690b1cce",
+        "url": "https://api.github.com/repos/Xefreh/judge0-php-client/zipball/6f78d99bbdd3939bb4159113a52cfca89eb3d763",
+        "reference": "6f78d99bbdd3939bb4159113a52cfca89eb3d763",
         "shasum": ""
       },
       "require": {
+        "ext-zip": "*",
         "guzzlehttp/guzzle": "^7.10",
         "php": "^8.4"
       },
@@ -6390,7 +6391,7 @@
         "issues": "https://github.com/Xefreh/judge0-php-client/issues",
         "source": "https://github.com/Xefreh/judge0-php-client/tree/main"
       },
-      "time": "2026-01-08T21:28:39+00:00"
+      "time": "2026-01-13T15:31:09+00:00"
     }
   ],
   "packages-dev": [
