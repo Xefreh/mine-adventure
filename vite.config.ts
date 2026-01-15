@@ -13,10 +13,11 @@ export default defineConfig({
     }),
     react(),
     tailwindcss(),
-    wayfinder({
+    // Skip wayfinder in Docker build (types are pre-generated)
+    !process.env.SKIP_WAYFINDER && wayfinder({
       formVariants: true,
     }),
-  ],
+  ].filter(Boolean),
   esbuild: {
     jsx: 'automatic',
   },

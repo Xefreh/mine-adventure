@@ -60,6 +60,8 @@ COPY public ./public
 COPY --from=wayfinder /app/resources/js/actions ./resources/js/actions
 COPY --from=wayfinder /app/resources/js/routes ./resources/js/routes
 
+# Skip wayfinder plugin during build (types are already generated)
+ENV SKIP_WAYFINDER=1
 RUN npm run build
 
 # Stage 4: Final image
