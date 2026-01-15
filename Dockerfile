@@ -1,25 +1,8 @@
-# Stage 1: Build frontend assets
-FROM node:20-alpine AS frontend
+# Stage 1: Install PHP dependencies and generate Wayfinder types
+FROM php:8.4-cli-alpine AS php-base
 
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm ci
-
-COPY resources ./resources
-COPY vite.config.ts tsconfig.json components.json ./
-COPY public ./public
-
-RUN npm run build
-
-# Stage 2: PHP application
-FROM php:8.4-fpm-alpine
-
-# Install system dependencies
+# Install system dependencies for composer
 RUN apk add --no-cache \
-    nginx \
-    supervisor \
-    sqlite \
     curl \
     libzip-dev \
     libpng-dev \
@@ -28,7 +11,73 @@ RUN apk add --no-cache \
     oniguruma-dev \
     libxml2-dev \
     icu-dev \
-    && apk add --no-cache postgresql-dev \
+    postgresql-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+        pdo_pgsql \
+        pgsql \
+        mbstring \
+        xml \
+        bcmath \
+        gd \
+        zip \
+        intl \
+        opcache \
+        pcntl
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /app
+
+# Copy composer files and install dependencies
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
+
+# Copy application files
+COPY . .
+
+# Generate autoloader
+RUN composer dump-autoload --optimize
+
+# Generate Wayfinder types
+RUN php artisan wayfinder:generate --with-form
+
+# Stage 2: Build frontend assets
+FROM node:20-alpine AS frontend
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+# Copy source files
+COPY resources ./resources
+COPY vite.config.ts tsconfig.json components.json ./
+COPY public ./public
+
+# Copy generated Wayfinder types from PHP stage
+COPY --from=php-base /app/resources/js/actions ./resources/js/actions
+COPY --from=php-base /app/resources/js/routes ./resources/js/routes
+
+RUN npm run build
+
+# Stage 3: Final PHP application
+FROM php:8.4-fpm-alpine
+
+# Install system dependencies
+RUN apk add --no-cache \
+    nginx \
+    supervisor \
+    curl \
+    libzip-dev \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    oniguruma-dev \
+    libxml2-dev \
+    icu-dev \
+    postgresql-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
         pdo_pgsql \
