@@ -59,6 +59,7 @@ COPY public ./public
 # Copy generated Wayfinder types
 COPY --from=wayfinder /app/resources/js/actions ./resources/js/actions
 COPY --from=wayfinder /app/resources/js/routes ./resources/js/routes
+COPY --from=wayfinder /app/resources/js/wayfinder ./resources/js/wayfinder
 
 # Skip wayfinder plugin during build (types are already generated)
 ENV SKIP_WAYFINDER=1
