@@ -4,6 +4,8 @@ use App\Models\BlockAssignment;
 use App\Models\BlockAssignmentTest;
 use App\Models\User;
 
+uses()->group('judge0');
+
 test('run endpoint requires authentication', function () {
     $assignment = BlockAssignment::factory()->create(['language' => 'php']);
 
@@ -67,7 +69,7 @@ test('submit with no test returns appropriate message', function () {
             'passed' => 0,
             'total' => 0,
         ]);
-})->group('judge0');
+});
 
 test('submit executes PHPUnit tests against user code', function () {
     $user = User::factory()->create();
@@ -107,4 +109,4 @@ PHPUNIT,
             'total',
             'results',
         ]);
-})->group('judge0');
+});
