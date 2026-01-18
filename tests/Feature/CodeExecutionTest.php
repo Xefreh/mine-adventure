@@ -67,7 +67,7 @@ test('submit with no test returns appropriate message', function () {
             'passed' => 0,
             'total' => 0,
         ]);
-});
+})->group('judge0');
 
 test('submit executes PHPUnit tests against user code', function () {
     $user = User::factory()->create();
