@@ -67,18 +67,31 @@ export function LessonNav({
 
   return (
     <div className="border-b border-sidebar-border/80 bg-background">
-      <div className="flex h-14 w-full items-center justify-between px-4 lg:px-8">
-        <div className="flex items-center gap-2">
+      <div className="flex h-14 w-full items-center justify-between gap-2 px-2 sm:px-4 lg:px-8">
+        {/* Navigation Arrow - Previous (mobile) */}
+        <Button variant="outline" size="icon" disabled={!prevLesson} asChild={!!prevLesson} className="size-8 shrink-0 sm:hidden">
+          {prevLesson ? (
+            <Link href={`/courses/${course.id}/lessons/${prevLesson.id}`}>
+              <ChevronLeft className="size-4" />
+            </Link>
+          ) : (
+            <span>
+              <ChevronLeft className="size-4" />
+            </span>
+          )}
+        </Button>
+
+        <div className="flex min-w-0 flex-1 items-center gap-1 sm:gap-2">
           {/* Chapter Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2">
+              <Button variant="outline" size="sm" className="gap-1 px-2 sm:gap-2 sm:px-3">
                 <span className="shrink-0 font-mono text-xs text-muted-foreground">CH{currentChapterIndex + 1}</span>
-                <span className="max-w-[150px] truncate">{chapter.name}</span>
+                <span className="hidden max-w-[100px] truncate sm:inline md:max-w-[150px]">{chapter.name}</span>
                 <ChevronDown className="size-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-64">
+            <DropdownMenuContent align="start" className="max-w-[calc(100vw-2rem)] w-64">
               <DropdownMenuLabel>Chapters</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {chapters.map((c, chapterIdx) => {
@@ -123,13 +136,13 @@ export function LessonNav({
           {/* Lesson Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2">
+              <Button variant="outline" size="sm" className="gap-1 px-2 sm:gap-2 sm:px-3">
                 <span className="shrink-0 font-mono text-xs text-muted-foreground">L{currentLessonIndex + 1}</span>
-                <span className="max-w-[200px] truncate">{lesson.name}</span>
+                <span className="hidden max-w-[100px] truncate sm:inline md:max-w-[200px]">{lesson.name}</span>
                 <ChevronDown className="size-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-72">
+            <DropdownMenuContent align="start" className="max-w-[calc(100vw-2rem)] w-72">
               <DropdownMenuLabel>Lessons in {chapter.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {currentChapter?.lessons?.map((l, lessonIdx) => {
@@ -169,7 +182,7 @@ export function LessonNav({
           </DropdownMenu>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-4">
           {/* Progress */}
           <span className="text-muted-foreground hidden text-sm md:inline">
             Lesson {currentLessonNumber} of {totalLessons}
@@ -177,9 +190,9 @@ export function LessonNav({
 
           {/* Mark Complete Button */}
           {isCompleted ? (
-            <Button variant="outline" size="sm" disabled className="gap-2">
+            <Button variant="outline" size="sm" disabled className="gap-2 px-2 sm:px-3">
               <Check className="size-4 text-green-600" />
-              Completed
+              <span className="hidden sm:inline">Completed</span>
             </Button>
           ) : (
             <Button
@@ -188,13 +201,15 @@ export function LessonNav({
               onClick={handleMarkComplete}
               disabled={!canComplete}
               title={!canComplete ? 'Pass all tests to complete this lesson' : undefined}
+              className="px-2 sm:px-3"
             >
-              {canComplete ? 'Mark Complete' : 'Pass Tests First'}
+              <Check className="size-4 sm:hidden" />
+              <span className="hidden sm:inline">{canComplete ? 'Mark Complete' : 'Pass Tests First'}</span>
             </Button>
           )}
 
-          {/* Navigation Arrows */}
-          <div className="flex items-center gap-1">
+          {/* Navigation Arrows - Desktop */}
+          <div className="hidden items-center gap-1 sm:flex">
             <Button variant="outline" size="icon" disabled={!prevLesson} asChild={!!prevLesson} className="size-8">
               {prevLesson ? (
                 <Link href={`/courses/${course.id}/lessons/${prevLesson.id}`}>
@@ -219,6 +234,19 @@ export function LessonNav({
             </Button>
           </div>
         </div>
+
+        {/* Navigation Arrow - Next (mobile) */}
+        <Button variant="outline" size="icon" disabled={!nextLesson} asChild={!!nextLesson} className="size-8 shrink-0 sm:hidden">
+          {nextLesson ? (
+            <Link href={`/courses/${course.id}/lessons/${nextLesson.id}`}>
+              <ChevronRight className="size-4" />
+            </Link>
+          ) : (
+            <span>
+              <ChevronRight className="size-4" />
+            </span>
+          )}
+        </Button>
       </div>
     </div>
   );

@@ -28,6 +28,7 @@ export function TextBlock({ text }: TextBlockProps) {
                             margin: 0,
                             borderRadius: '0.5rem',
                             padding: '1rem',
+                            fontFamily: "'JetBrains Mono', monospace",
                         }}
                     >
                         {codeString}
@@ -36,7 +37,7 @@ export function TextBlock({ text }: TextBlockProps) {
             }
 
             return (
-                <code className={className} {...props}>
+                <code className={`${className ?? ''} font-mono`} {...props}>
                     {children}
                 </code>
             );
@@ -44,7 +45,7 @@ export function TextBlock({ text }: TextBlockProps) {
     };
 
     return (
-        <div className="prose dark:prose-invert max-w-none">
+        <div className="prose dark:prose-invert max-w-none prose-code:before:content-none prose-code:after:content-none">
             <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
                 {text.content}
             </ReactMarkdown>

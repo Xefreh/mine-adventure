@@ -3,9 +3,11 @@ import { BlockRenderer } from '@/components/blocks/block-renderer';
 import { CodeEditor } from '@/components/code-editor';
 import { EditorActionBar } from '@/components/editor-action-bar';
 import { TerminalOutput } from '@/components/terminal-output';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import LessonLayout from '@/layouts/lesson-layout';
 import type { Chapter, Course, Lesson, LessonBlock } from '@/types';
 import { Head } from '@inertiajs/react';
+import { BookOpen, Code } from 'lucide-react';
 import { useMemo, useRef, useState } from 'react';
 
 interface LessonShowProps {
@@ -206,52 +208,70 @@ function SplitViewLayout({
     setError(null);
   };
 
+  const contentPanel = (
+    <div className="space-y-8">
+      {contentBlocks.map((block) => (
+        <BlockRenderer key={block.id} block={block} />
+      ))}
+    </div>
+  );
+
+  const editorPanel = (
+    <div className="flex h-full flex-col overflow-hidden rounded-lg border">
+      <div className="shrink-0 border-b bg-muted/50 px-4 py-2">
+        <h3 className="font-medium">Code Editor</h3>
+        <p className="text-muted-foreground text-sm">{assignment?.language || 'php'}</p>
+      </div>
+      <div className="min-h-0 flex-1">
+        <CodeEditor language={assignment?.language || 'php'} value={code} onChange={setCode} height="100%" />
+      </div>
+      <div className="shrink-0">
+        <EditorActionBar
+          onRun={handleRun}
+          onSubmit={handleSubmit}
+          onRevealSolution={handleRevealSolution}
+          isRunning={isRunning}
+          isSubmitting={isSubmitting}
+          solutionRevealed={solutionRevealed}
+          hasSolution={!!assignment?.solution}
+        />
+      </div>
+      <TerminalOutput output={output} isRunning={isRunning} error={error} onClear={handleClearOutput} className="shrink-0" />
+    </div>
+  );
+
   return (
-    <div className="flex h-[calc(100vh-8rem)] w-full gap-8 px-4 py-4 lg:px-8">
-      {/* Left Panel - Content (scrollable) */}
-      <div className="flex-1 overflow-y-auto pr-4">
-        <div className="space-y-8">
-          {contentBlocks.map((block) => (
-            <BlockRenderer key={block.id} block={block} />
-          ))}
-        </div>
+    <>
+      {/* Mobile: Tabs layout */}
+      <div className="flex h-[calc(100dvh-10.5rem)] flex-col overflow-hidden px-4 py-4 md:hidden">
+        <Tabs defaultValue="lesson" className="flex min-h-0 flex-1 flex-col">
+          <TabsList className="mx-auto mb-4 grid w-full max-w-xs shrink-0 grid-cols-2">
+            <TabsTrigger value="lesson" className="gap-2">
+              <BookOpen className="size-4" />
+              Lesson
+            </TabsTrigger>
+            <TabsTrigger value="code" className="gap-2">
+              <Code className="size-4" />
+              Code
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="lesson" className="min-h-0 flex-1 overflow-y-auto">
+            {contentPanel}
+          </TabsContent>
+          <TabsContent value="code" className="min-h-0 flex-1 overflow-hidden">
+            {editorPanel}
+          </TabsContent>
+        </Tabs>
       </div>
 
-      {/* Right Panel - Code Editor (fixed) */}
-      <div className="flex flex-1 flex-col">
-          <div className="flex flex-1 flex-col overflow-hidden rounded-lg border">
-            <div className="shrink-0 border-b bg-muted/50 px-4 py-2">
-              <h3 className="font-medium">Code Editor</h3>
-              <p className="text-muted-foreground text-sm">{assignment?.language || 'php'}</p>
-            </div>
-            <div className="flex-1 min-h-0">
-              <CodeEditor
-                language={assignment?.language || 'php'}
-                value={code}
-                onChange={setCode}
-                height="100%"
-              />
-            </div>
-            <div className="shrink-0">
-              <EditorActionBar
-                onRun={handleRun}
-                onSubmit={handleSubmit}
-                onRevealSolution={handleRevealSolution}
-                isRunning={isRunning}
-                isSubmitting={isSubmitting}
-                solutionRevealed={solutionRevealed}
-                hasSolution={!!assignment?.solution}
-              />
-            </div>
-            <TerminalOutput
-              output={output}
-              isRunning={isRunning}
-              error={error}
-              onClear={handleClearOutput}
-              className="shrink-0"
-            />
-          </div>
+      {/* Desktop: Split view layout */}
+      <div className="hidden h-[calc(100vh-8rem)] w-full gap-8 px-4 py-4 md:flex lg:px-8">
+        {/* Left Panel - Content (scrollable) */}
+        <div className="flex-1 overflow-y-auto pr-4">{contentPanel}</div>
+
+        {/* Right Panel - Code Editor (fixed) */}
+        <div className="flex flex-1 flex-col">{editorPanel}</div>
       </div>
-    </div>
+    </>
   );
 }
