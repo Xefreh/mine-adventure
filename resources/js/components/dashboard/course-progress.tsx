@@ -54,35 +54,33 @@ export function CourseProgress({ progress, nextLesson }: CourseProgressProps) {
     });
   });
 
-  // Mobile: only show chapters
-  const mobileNodes: TimelineNode[] = timelineNodes.filter((node) => node.type === 'chapter');
+  // Mobile: show current lesson and next 3 nodes
+  const currentLessonIndex = timelineNodes.findIndex((node) => node.type === 'lesson' && node.isCurrent);
+  const mobileStartIndex = currentLessonIndex >= 0 ? currentLessonIndex : 0;
+  const mobileNodes: TimelineNode[] = timelineNodes.slice(mobileStartIndex, mobileStartIndex + 4);
 
   // Calculate progress for desktop (full timeline)
   let lastCompletedIndex = timelineNodes.reduce((lastIdx, node, idx) => {
     return node.isComplete ? idx : lastIdx;
   }, -1);
 
-  // If the last completed node is a lesson and the next node is a chapter, extend to that chapter
   if (
     lastCompletedIndex >= 0 &&
-    lastCompletedIndex < timelineNodes.length - 1 &&
-    timelineNodes[lastCompletedIndex].type === 'lesson' &&
-    timelineNodes[lastCompletedIndex + 1].type === 'chapter'
+    lastCompletedIndex < timelineNodes.length - 1
   ) {
-    lastCompletedIndex = lastCompletedIndex + 1;
+    const current = timelineNodes[lastCompletedIndex];
+    const next = timelineNodes[lastCompletedIndex + 1];
+
+    if (
+      (current.type === 'lesson' && next.type === 'chapter') ||
+      (current.type === 'chapter' && next.type === 'lesson' && next.isCurrent)
+    ) {
+      lastCompletedIndex = lastCompletedIndex + 1;
+    }
   }
 
   const progressLinePercentage = timelineNodes.length > 1
     ? (lastCompletedIndex / (timelineNodes.length - 1)) * 100
-    : 0;
-
-  // Calculate progress for mobile (chapters only)
-  const lastCompletedMobileIndex = mobileNodes.reduce((lastIdx, node, idx) => {
-    return node.isComplete ? idx : lastIdx;
-  }, -1);
-
-  const mobileProgressLinePercentage = mobileNodes.length > 1
-    ? (lastCompletedMobileIndex / (mobileNodes.length - 1)) * 100
     : 0;
 
   return (
@@ -113,16 +111,16 @@ export function CourseProgress({ progress, nextLesson }: CourseProgressProps) {
           <Progress value={progressPercentage} className="h-2" />
         </div>
 
-        {/* Mobile Timeline - Chapters only */}
+        {/* Mobile Timeline - Current lesson + next 3 nodes */}
         <TooltipProvider delayDuration={200}>
           <div className="relative py-8 md:hidden">
             {/* Base Line */}
             <div className="absolute top-1/2 left-0 right-0 h-1 -translate-y-1/2 bg-muted rounded-full" />
 
-            {/* Progress Line */}
+            {/* Progress Line - goes to first node (current lesson) */}
             <div
               className="absolute top-1/2 left-0 h-1 -translate-y-1/2 bg-green-600 rounded-full transition-all duration-300"
-              style={{ width: lastCompletedMobileIndex >= 0 ? `calc(${mobileProgressLinePercentage}% + 1.25rem)` : 0 }}
+              style={{ width: mobileNodes.length > 0 ? '0.75rem' : 0 }}
             />
 
             {/* Nodes */}
