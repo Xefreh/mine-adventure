@@ -107,4 +107,4 @@ PHPUNIT,
             'total',
             'results',
         ]);
-})->skip(fn () => ! env('JUDGE0_API_HOST'), 'Judge0 not configured');
+})->group('judge0');
