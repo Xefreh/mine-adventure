@@ -26,7 +26,7 @@ interface TimelineNode {
 export function CourseProgress({ progress, nextLesson }: CourseProgressProps) {
   const { course, progressPercentage, completedLessons, totalLessons, chapters } = progress;
 
-  // Flatten chapters and lessons into a single timeline
+  // Flatten chapters and lessons into a single timeline (desktop)
   const timelineNodes: TimelineNode[] = [];
   chapters.forEach((chapter) => {
     // Add chapter node
@@ -54,7 +54,10 @@ export function CourseProgress({ progress, nextLesson }: CourseProgressProps) {
     });
   });
 
-  // Calculate progress line width based on last completed node position
+  // Mobile: only show chapters
+  const mobileNodes: TimelineNode[] = timelineNodes.filter((node) => node.type === 'chapter');
+
+  // Calculate progress for desktop (full timeline)
   let lastCompletedIndex = timelineNodes.reduce((lastIdx, node, idx) => {
     return node.isComplete ? idx : lastIdx;
   }, -1);
@@ -71,6 +74,15 @@ export function CourseProgress({ progress, nextLesson }: CourseProgressProps) {
 
   const progressLinePercentage = timelineNodes.length > 1
     ? (lastCompletedIndex / (timelineNodes.length - 1)) * 100
+    : 0;
+
+  // Calculate progress for mobile (chapters only)
+  const lastCompletedMobileIndex = mobileNodes.reduce((lastIdx, node, idx) => {
+    return node.isComplete ? idx : lastIdx;
+  }, -1);
+
+  const mobileProgressLinePercentage = mobileNodes.length > 1
+    ? (lastCompletedMobileIndex / (mobileNodes.length - 1)) * 100
     : 0;
 
   return (
@@ -101,16 +113,39 @@ export function CourseProgress({ progress, nextLesson }: CourseProgressProps) {
           <Progress value={progressPercentage} className="h-2" />
         </div>
 
-        {/* Full-Width Horizontal Timeline */}
+        {/* Mobile Timeline - Chapters only */}
         <TooltipProvider delayDuration={200}>
-          <div className="relative py-8">
+          <div className="relative py-8 md:hidden">
             {/* Base Line */}
             <div className="absolute top-1/2 left-0 right-0 h-1 -translate-y-1/2 bg-muted rounded-full" />
 
             {/* Progress Line */}
             <div
               className="absolute top-1/2 left-0 h-1 -translate-y-1/2 bg-green-600 rounded-full transition-all duration-300"
-              style={{ width: `${progressLinePercentage}%` }}
+              style={{ width: lastCompletedMobileIndex >= 0 ? `calc(${mobileProgressLinePercentage}% + 1.25rem)` : 0 }}
+            />
+
+            {/* Nodes */}
+            <div className="relative flex justify-between items-center">
+              {mobileNodes.map((node) => (
+                <TimelineNodeComponent
+                  key={`${node.type}-${node.id}`}
+                  node={node}
+                  courseId={course.id}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop Timeline - Full with chapters and lessons */}
+        <div className="relative py-8 hidden md:block">
+            {/* Base Line */}
+            <div className="absolute top-1/2 left-0 right-0 h-1 -translate-y-1/2 bg-muted rounded-full" />
+
+            {/* Progress Line */}
+            <div
+              className="absolute top-1/2 left-0 h-1 -translate-y-1/2 bg-green-600 rounded-full transition-all duration-300"
+              style={{ width: lastCompletedIndex >= 0 ? `calc(${progressLinePercentage}% + 0.75rem)` : 0 }}
             />
 
             {/* Nodes */}

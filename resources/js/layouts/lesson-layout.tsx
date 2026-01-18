@@ -33,7 +33,7 @@ export default function LessonLayout({
 }: PropsWithChildren<LessonLayoutProps>) {
   return (
     <AppHeaderLayout fullWidth>
-      <div className="flex min-h-[calc(100vh-4rem)] flex-col">
+      <div className="flex flex-col">
         <LessonNav
           course={course}
           chapter={chapter}

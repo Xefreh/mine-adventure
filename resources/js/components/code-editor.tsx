@@ -53,6 +53,8 @@ export function CodeEditor({ language, value = '', onChange, readOnly = false, h
   const editorOptions: editor.IStandaloneEditorConstructionOptions = {
     minimap: { enabled: false },
     fontSize: 14,
+    fontFamily: "'JetBrains Mono', monospace",
+    fontLigatures: true,
     lineNumbers: 'on',
     readOnly,
     scrollBeyondLastLine: false,
