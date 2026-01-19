@@ -514,3 +514,5 @@ export default () => (
 ## Database
 
 See the full schema in `docs/schema.dbml`
+
+- When the database schema changes (new tables, columns, indexes, etc.), you must update `docs/schema.dbml` to reflect the changes.

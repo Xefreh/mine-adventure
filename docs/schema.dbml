@@ -35,7 +35,18 @@ Table courses {
   id integer [pk, not null, increment]
   name varchar [not null, unique]
   thumbnail varchar [not null]
+  description text [null]
   difficulty difficulty_type [not null]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table course_faqs {
+  id integer [pk, not null, increment]
+  course_id integer [ref: > courses.id]
+  question text [not null]
+  answer text [not null]
+  order integer [not null, default: 0]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
 }
@@ -74,9 +85,19 @@ Table lesson_blocks {
   lesson_id integer [ref: > lessons.id]
   type block_type [not null]
   position integer [not null]
-  side varchar [null]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+}
+
+Table lesson_completions {
+  id integer [pk, not null, increment]
+  user_id bigint [ref: > users.id]
+  lesson_id integer [ref: > lessons.id]
+  completed_at timestamp [not null]
+
+  indexes {
+    (user_id, lesson_id) [unique]
+  }
 }
 
 Table block_videos {
@@ -103,13 +124,15 @@ Table block_assignments {
   block_id integer [ref: - lesson_blocks.id, unique]
   instructions text [not null]
   starter_code text [null]
+  solution text [null]
+  language varchar [not null, default: 'php']
 }
 
 Table block_assignment_tests {
   id integer [pk, not null, increment]
   block_assignment_id integer [ref: > block_assignments.id]
-  file_content text [not null]
-  class_name varchar(255) [not null]
+  file_content text [null]
+  class_name varchar(255) [null]
 }
 
 Table block_quizzes {
