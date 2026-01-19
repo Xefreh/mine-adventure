@@ -49,12 +49,15 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 FROM php-base AS wayfinder
 WORKDIR /app
 COPY composer.json composer.lock ./
+COPY artisan ./
 RUN composer install --no-dev --prefer-dist --no-progress
 # On copie seulement le nécessaire pour limiter l'invalidation du cache
 COPY app ./app
+COPY bootstrap ./bootstrap
+COPY config ./config
+COPY database ./database
 COPY resources ./resources
 COPY routes ./routes
-COPY artisan ./
 RUN php artisan wayfinder:generate --with-form
 
 # Stage 3: Build frontend assets
@@ -64,7 +67,7 @@ COPY package*.json ./
 RUN npm ci
 COPY resources ./resources
 COPY vite.config.ts tsconfig.json components.json ./
-COPY public ./publicz
+COPY public ./public
 
 # Retrieve generated Wayfinder types
 COPY --from=wayfinder /app/resources/js/actions ./resources/js/actions
