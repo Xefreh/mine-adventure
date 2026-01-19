@@ -1,0 +1,5 @@
+flowchart LR
+    GR["GitHub"] -->|"push"| GA["GitHub Actions"]
+    GA -->|"tests"| GR
+    GR -->|"deploy"| LC["Laravel Cloud"]
+    LC <-->|"SQL"| PG["PostgreSQL"]

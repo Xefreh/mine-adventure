@@ -12,28 +12,19 @@ Cette plateforme répond à un besoin croissant : permettre aux passionnés de M
 
 #### Pour les apprenants
 
-| Fonctionnalité               | Description                                                    |
-|------------------------------|----------------------------------------------------------------|
-| **Catalogue de cours**       | Navigation par niveau de difficulté (Facile, Moyen, Difficile) |
-| **Progression séquentielle** | Déblocage progressif des leçons                                |
-| **Contenus variés**          | Vidéos, textes, ressources externes, quiz                      |
-| **Éditeur de code intégré**  | Monaco Editor avec coloration syntaxique Java                  |
-| **Exécution de code**        | Compilation et exécution Java en temps réel                    |
-| **Tests automatisés**        | Validation des exercices via JUnit 5                           |
-| **Tableau de bord**          | Suivi des statistiques et de la progression                    |
-| **Mode sombre/clair**        | Interface adaptable aux préférences                            |
+Les apprenants disposent d'un **catalogue de cours** organisé par niveau de difficulté (Facile, Moyen, Difficile), leur permettant de choisir un parcours adapté à leurs compétences. La plateforme propose une **progression séquentielle** : chaque leçon se débloque après avoir complété la précédente, garantissant une acquisition progressive des connaissances.
+
+Les contenus pédagogiques sont variés et incluent des vidéos explicatives, des textes détaillés, des liens vers des ressources externes et des quiz interactifs. L'élément central de l'apprentissage est l'**éditeur de code intégré**, basé sur Monaco Editor (le même moteur que VS Code), qui offre une coloration syntaxique Java et permet l'**exécution du code en temps réel** directement dans le navigateur.
+
+Les exercices pratiques sont validés par des **tests automatisés JUnit 5**, offrant un feedback immédiat sur la qualité du code soumis. Un **tableau de bord personnalisé** permet à chaque apprenant de suivre ses statistiques et sa progression. Enfin, l'interface s'adapte aux préférences visuelles grâce au support du **mode sombre et clair**.
 
 #### Pour les administrateurs
 
-| Fonctionnalité                 | Description                                 |
-|--------------------------------|---------------------------------------------|
-| **Gestion des cours**          | CRUD complet avec niveaux de difficulté     |
-| **Organisation en chapitres**  | Structure hiérarchique des contenus         |
-| **Création de leçons**         | Assemblage de blocs de contenu              |
-| **5 types de blocs**           | Vidéo, Texte, Ressources, Quiz, Assignation |
-| **Éditeur d'exercices**        | Code de départ, solution, tests JUnit       |
-| **Réorganisation drag & drop** | Interface intuitive de gestion              |
-| **FAQ par cours**              | Gestion des questions fréquentes            |
+L'interface d'administration offre une **gestion complète des cours** avec toutes les opérations CRUD (création, lecture, modification, suppression) et la possibilité d'attribuer un niveau de difficulté à chaque cours. Les contenus sont organisés de manière hiérarchique en **chapitres**, eux-mêmes divisés en **leçons**.
+
+Chaque leçon est composée de **blocs de contenu** de cinq types différents : vidéo, texte, ressources, quiz et exercices de code (assignations). L'**éditeur d'exercices** permet de définir un code de départ, une solution de référence et les tests JUnit qui valideront les soumissions des apprenants.
+
+L'interface propose également une **réorganisation par glisser-déposer** pour ordonner intuitivement les chapitres, leçons et blocs. Chaque cours peut être enrichi d'une **FAQ** pour répondre aux questions fréquentes des apprenants.
 
 ## 2.2 Objectifs pédagogiques du projet
 
@@ -74,16 +65,15 @@ Ce projet m'a permis de mettre en pratique l'ensemble des compétences du titre 
 - Connaissance de Java et du développement Minecraft
 - Besoin d'outils simples pour créer du contenu pédagogique
 
-### Besoins identifiés
+### Besoins identifiés et solutions apportées
 
-| Besoin | Solution apportée |
-|--------|-------------------|
-| Apprendre Java sans installation complexe | Éditeur de code intégré au navigateur |
-| Progresser à son rythme | Déblocage séquentiel des leçons |
-| Valider ses acquis | Tests automatisés JUnit 5 |
-| Suivre sa progression | Dashboard avec statistiques |
-| Accéder depuis n'importe quel appareil | Interface responsive (mobile, tablette, desktop) |
-| Interface moderne et agréable | Design soigné avec mode sombre |
+L'analyse du public cible a permis d'identifier plusieurs besoins clés auxquels Mine Adventure répond de manière ciblée.
+
+Le premier obstacle pour les débutants est souvent l'**installation complexe d'un environnement de développement Java**. Pour y remédier, la plateforme intègre un éditeur de code directement dans le navigateur, permettant de commencer à coder immédiatement sans aucune configuration préalable.
+
+Les apprenants ont également besoin de **progresser à leur propre rythme**. Le système de déblocage séquentiel des leçons répond à ce besoin en évitant de submerger l'utilisateur tout en maintenant une progression logique. Pour **valider leurs acquis**, les tests automatisés JUnit 5 offrent un feedback instantané et objectif sur la qualité du code produit.
+
+Le **suivi de progression** est assuré par un tableau de bord affichant des statistiques détaillées : cours complétés, leçons terminées, séries de jours consécutifs d'apprentissage. L'**accessibilité multi-appareil** est garantie par une interface responsive qui s'adapte aux smartphones, tablettes et ordinateurs. Enfin, pour offrir une **expérience visuelle agréable**, l'interface propose un design moderne avec support du mode sombre.
 
 ### Cas d'utilisation principaux
 

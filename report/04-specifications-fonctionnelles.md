@@ -6,64 +6,29 @@
 
 #### Module Authentification
 
-| ID      | Besoin                                                     | Priorité |
-|---------|------------------------------------------------------------|----------|
-| AUTH-01 | L'utilisateur peut s'inscrire                              | Haute    |
-| AUTH-02 | L'utilisateur peut se connecter/déconnecter                | Haute    |
-| AUTH-03 | Les sessions sont persistantes et sécurisées               | Haute    |
-| AUTH-04 | L'administrateur a accès à des fonctionnalités spécifiques | Haute    |
+Le module d'authentification couvre les fonctionnalités essentielles de gestion des utilisateurs. L'inscription et la connexion/déconnexion sont des fonctionnalités de haute priorité. Les sessions doivent être persistantes et sécurisées. L'administrateur dispose d'un accès à des fonctionnalités spécifiques réservées à son rôle.
 
 #### Module Cours (Apprenant)
 
-| ID       | Besoin                                                | Priorité |
-|----------|-------------------------------------------------------|----------|
-| COURS-01 | Voir la liste des cours disponibles                   | Haute    |
-| COURS-02 | Filtrer les cours par niveau de difficulté            | Moyenne  |
-| COURS-03 | Accéder au détail d'un cours (chapitres, progression) | Haute    |
-| COURS-04 | Suivre une leçon avec différents types de contenus    | Haute    |
-| COURS-05 | Marquer une leçon comme complétée                     | Haute    |
-| COURS-06 | Débloquer les leçons de manière séquentielle          | Haute    |
+Le module cours permet à l'apprenant de consulter la liste des cours disponibles et de filtrer par niveau de difficulté. L'accès au détail d'un cours avec ses chapitres et sa progression est prioritaire, tout comme la possibilité de suivre des leçons avec différents types de contenus. L'apprenant peut marquer une leçon comme complétée et les leçons se débloquent de manière séquentielle.
 
 #### Module Exercices de code
 
-| ID      | Besoin                                            | Priorité |
-|---------|---------------------------------------------------|----------|
-| CODE-01 | Écrire du code Java dans un éditeur intégré       | Haute    |
-| CODE-02 | Exécuter le code et voir le résultat              | Haute    |
-| CODE-03 | Soumettre le code pour validation par tests JUnit | Haute    |
-| CODE-04 | Voir le détail des tests (passés/échoués)         | Haute    |
-| CODE-05 | Avoir accès à un code de départ pré-rempli        | Moyenne  |
+Ce module permet d'écrire du code Java dans un éditeur intégré et de l'exécuter pour voir le résultat. La soumission du code pour validation par tests JUnit est une fonctionnalité clé, accompagnée de l'affichage détaillé des tests passés ou échoués. Un code de départ pré-rempli peut être fourni pour guider l'apprenant.
 
 #### Module Dashboard
 
-| ID      | Besoin                                       | Priorité |
-|---------|----------------------------------------------|----------|
-| DASH-01 | Voir ses statistiques globales               | Moyenne  |
-| DASH-02 | Voir le nombre de cours commencés/terminés   | Moyenne  |
-| DASH-03 | Voir son streak d'apprentissage              | Basse    |
-| DASH-04 | Accéder rapidement au dernier cours en cours | Moyenne  |
+Le tableau de bord affiche les statistiques globales de l'apprenant, notamment le nombre de cours commencés et terminés. Le streak d'apprentissage est une fonctionnalité secondaire pour la motivation. Un accès rapide au dernier cours en cours facilite la reprise de l'apprentissage.
 
 #### Module Administration
 
-| ID       | Besoin                                                | Priorité |
-|----------|-------------------------------------------------------|----------|
-| ADMIN-01 | Créer, modifier, supprimer des cours                  | Haute    |
-| ADMIN-02 | Organiser les cours en chapitres                      | Haute    |
-| ADMIN-03 | Créer des leçons avec différents types de blocs       | Haute    |
-| ADMIN-04 | Réordonner chapitres, leçons et blocs par drag & drop | Moyenne  |
-| ADMIN-05 | Créer des exercices de code avec tests JUnit          | Haute    |
-| ADMIN-06 | Gérer les FAQ de chaque cours                         | Basse    |
+L'administration permet de créer, modifier et supprimer des cours, de les organiser en chapitres et de créer des leçons avec différents types de blocs. Le réordonnancement par drag & drop des chapitres, leçons et blocs est disponible. Les administrateurs peuvent créer des exercices de code avec des tests JUnit et gérer les FAQ de chaque cours.
 
 ### Besoins non fonctionnels
 
-| Catégorie          | Besoin                                       |
-|--------------------|----------------------------------------------|
-| **Performance**    | Temps de chargement des pages < 3 secondes   |
-| **Accessibilité**  | Interface compatible lecteurs d'écran (RGAA) |
-| **Responsive**     | Adaptation mobile, tablette, desktop         |
-| **Sécurité**       | Protection contre XSS, CSRF, injection SQL   |
-| **Disponibilité**  | Application accessible 24/7                  |
-| **Maintenabilité** | Code structuré, documenté, testé             |
+En termes de **performance**, le temps de chargement des pages doit rester inférieur à 3 secondes. L'**accessibilité** est assurée par une interface compatible avec les lecteurs d'écran selon le RGAA. Le design **responsive** garantit une adaptation optimale sur mobile, tablette et desktop.
+
+La **sécurité** est renforcée par une protection contre les attaques XSS, CSRF et les injections SQL. La **disponibilité** vise une accessibilité 24h/24 et 7j/7. Enfin, la **maintenabilité** repose sur un code structuré, documenté et testé.
 
 ## 4.2 Cas d'utilisation
 
@@ -207,15 +172,12 @@ Critères d'acceptation :
 
 ## 4.4 Règles de gestion
 
-| Code  | Règle                                                                   |
-|-------|-------------------------------------------------------------------------|
-| RG-01 | Un apprenant doit être authentifié pour accéder aux cours               |
-| RG-02 | Une leçon ne peut être accessible que si la précédente est complétée    |
-| RG-03 | La première leçon d'un chapitre est toujours accessible                 |
-| RG-04 | Un cours contient au moins un chapitre                                  |
-| RG-05 | Un chapitre contient au moins une leçon                                 |
-| RG-06 | Une leçon contient au moins un bloc de contenu                          |
-| RG-07 | Seuls les administrateurs peuvent créer/modifier/supprimer des contenus |
-| RG-08 | Le code soumis est exécuté dans un environnement sandboxé (Judge0)      |
-| RG-09 | Le temps d'exécution du code est limité (timeout)                       |
-| RG-10 | Les niveaux de difficulté possibles sont : Facile, Moyen, Difficile     |
+Plusieurs règles de gestion encadrent le fonctionnement de l'application.
+
+Concernant l'**accès et l'authentification**, un apprenant doit être authentifié pour accéder aux cours (RG-01). Une leçon ne peut être accessible que si la précédente est complétée (RG-02), à l'exception de la première leçon de chaque chapitre qui est toujours accessible (RG-03). Seuls les administrateurs peuvent créer, modifier ou supprimer des contenus (RG-07).
+
+En ce qui concerne la **structure des contenus**, un cours doit contenir au moins un chapitre (RG-04), un chapitre doit contenir au moins une leçon (RG-05), et une leçon doit contenir au moins un bloc de contenu (RG-06).
+
+Pour l'**exécution de code**, le code soumis par l'apprenant est exécuté dans un environnement sandboxé via Judge0 pour des raisons de sécurité (RG-08). Le temps d'exécution est limité par un timeout pour éviter les boucles infinies (RG-09).
+
+Enfin, les **niveaux de difficulté** possibles pour les cours sont : Facile, Moyen et Difficile (RG-10).

@@ -10,41 +10,27 @@ Cette section conclut le dossier de projet en présentant les compétences acqui
 
 #### Front-end
 
-| Compétence                   | Niveau avant  | Niveau après  | Contexte d'acquisition                 |
-|------------------------------|---------------|---------------|----------------------------------------|
-| React + TypeScript           | Intermédiaire | Avancé        | Développement de toutes les interfaces |
-| Tailwind CSS                 | Débutant      | Avancé        | Styling de l'application complète      |
-| Gestion d'état (Zustand)     | Débutant      | Intermédiaire | Store de l'éditeur de code             |
-| Inertia.js                   | Débutant      | Avancé        | Architecture complète du projet        |
-| Composants UI (Radix/shadcn) | Débutant      | Avancé        | Bibliothèque de composants             |
+Le développement de Mine Adventure m'a permis de faire progresser significativement mes compétences front-end. En **React avec TypeScript**, je suis passé d'un niveau intermédiaire à avancé grâce au développement de l'ensemble des interfaces de l'application. Ma maîtrise de **Tailwind CSS** a connu une progression similaire, passant de débutant à avancé en stylisant l'intégralité de l'application.
+
+J'ai découvert **Zustand** pour la gestion d'état, atteignant un niveau intermédiaire en implémentant le store de l'éditeur de code. **Inertia.js** était nouveau pour moi et j'ai atteint un niveau avancé en l'utilisant comme architecture complète du projet. Enfin, l'utilisation de **Radix et shadcn/ui** pour les composants m'a fait progresser de débutant à avancé en créant une bibliothèque de composants cohérente.
 
 #### Back-end
 
-| Compétence   | Niveau avant  | Niveau après  | Contexte d'acquisition             |
-|--------------|---------------|---------------|------------------------------------|
-| Laravel 12   | Intermédiaire | Avancé        | Développement du backend complet   |
-| Eloquent ORM | Intermédiaire | Avancé        | Modélisation et requêtes complexes |
-| API REST     | Intermédiaire | Avancé        | Intégration Judge0                 |
-| Tests (Pest) | Débutant      | Intermédiaire | Tests unitaires et fonctionnels    |
-| Docker       | Débutant      | Intermédiaire | Conteneurisation de l'application  |
+Côté back-end, ma maîtrise de **Laravel 12** est passée d'intermédiaire à avancé avec le développement du backend complet. Il en va de même pour **Eloquent ORM**, dont j'ai approfondi la connaissance à travers la modélisation de données et les requêtes complexes, notamment les relations polymorphiques.
+
+L'intégration de l'API **Judge0** m'a permis de consolider mes compétences en **API REST**, atteignant un niveau avancé. Les **tests avec Pest** représentaient une nouveauté : je suis passé de débutant à intermédiaire en écrivant des tests unitaires et fonctionnels. Enfin, **Docker** était également nouveau et j'ai atteint un niveau intermédiaire en conteneurisant l'application.
 
 #### DevOps
 
-| Compétence               | Niveau avant | Niveau après  | Contexte d'acquisition   |
-|--------------------------|--------------|---------------|--------------------------|
-| CI/CD (GitHub Actions)   | Débutant     | Intermédiaire | Pipeline automatisé      |
-| Déploiement (Coolify)    | Débutant     | Intermédiaire | Mise en production       |
-| Gestion de serveur (VPS) | Débutant     | Intermédiaire | Configuration production |
+En DevOps, j'ai progressé de débutant à intermédiaire sur deux aspects. La mise en place du pipeline **CI/CD avec GitHub Actions** m'a permis de comprendre l'automatisation des tests et du linting. Le **déploiement sur Laravel Cloud** m'a initié à la mise en production d'applications web sur une plateforme managée.
 
 ### Compétences transversales
 
-| Compétence                  | Description                                            |
-|-----------------------------|--------------------------------------------------------|
-| **Gestion de projet**       | Planification, priorisation, suivi de l'avancement     |
-| **Résolution de problèmes** | Debugging, recherche de solutions, adaptation          |
-| **Veille technologique**    | Identification et évaluation de nouvelles technologies |
-| **Documentation**           | Rédaction technique, commentaires de code              |
-| **Autonomie**               | Travail en solo sur un projet complet                  |
+Au-delà des compétences techniques, ce projet m'a permis de développer des compétences transversales essentielles.
+
+La **gestion de projet** s'est manifestée par la planification des phases de développement, la priorisation des fonctionnalités et le suivi de l'avancement. La **résolution de problèmes** a été constamment sollicitée à travers le debugging, la recherche de solutions et l'adaptation aux contraintes rencontrées.
+
+J'ai également pratiqué la **veille technologique** en identifiant et évaluant de nouvelles technologies comme Inertia.js ou Zustand. La **documentation** a été un fil conducteur du projet, tant dans la rédaction technique que dans les commentaires de code. Enfin, ce projet réalisé en solo a renforcé mon **autonomie** et ma capacité à mener un développement complet de bout en bout.
 
 ## Difficultés rencontrées et solutions
 
@@ -160,12 +146,15 @@ Implémentation d'un build multi-stage :
 
 ## Ce que je ferais différemment
 
-| Aspect            | Approche initiale    | Approche améliorée                |
-|-------------------|----------------------|-----------------------------------|
-| **Tests**         | Écrits après le code | TDD ou tests en parallèle         |
-| **Documentation** | En fin de projet     | Continue, au fil du développement |
-| **Validation**    | Parfois côté client  | Toujours côté serveur d'abord     |
-| **Accessibilité** | Ajoutée après        | Intégrée dès le début             |
+Avec le recul, plusieurs aspects de ma méthodologie pourraient être améliorés pour un prochain projet.
+
+Concernant les **tests**, je les ai souvent écrits après avoir terminé le code. À l'avenir, j'adopterais une approche TDD (Test-Driven Development) ou au minimum l'écriture des tests en parallèle du développement, ce qui permettrait de détecter les bugs plus tôt et de mieux structurer le code.
+
+Pour la **documentation**, j'ai eu tendance à la rédiger en fin de projet, ce qui représente une charge importante. Une documentation continue, rédigée au fil du développement, serait plus efficace et plus fidèle aux décisions prises à chaque étape.
+
+La **validation des données** a parfois été implémentée côté client uniquement. Je m'assurerais désormais de toujours valider côté serveur en priorité, le client n'étant qu'une amélioration de l'expérience utilisateur et non une garantie de sécurité.
+
+Enfin, l'**accessibilité** a été ajoutée après coup dans certaines parties de l'application. L'intégrer dès le début du développement serait plus efficace et éviterait des refactorisations coûteuses.
 
 ## Perspectives d'évolution
 
@@ -224,11 +213,3 @@ Le développement de Mine Adventure a été une expérience formatrice complète
 Ce projet démontre ma capacité à concevoir, développer et déployer une application web complète, tout en maintenant une qualité de code professionnelle et en restant à jour sur les technologies.
 
 Je suis confiant dans ma capacité à contribuer efficacement à des projets de développement web, que ce soit en entreprise ou en tant que développeur indépendant.
-
----
-
-**Projet réalisé par William Strainchamps**
-
-**Formation : Titre Professionnel Développeur Web et Web Mobile**
-
-**Période : 5 mai 2025 - 2 février 2026**

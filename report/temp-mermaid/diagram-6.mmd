@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant Browser as Navigateur
+    participant Inertia
+    participant Laravel
+    participant React
+
+    Browser->>Inertia: Click / Navigation
+    Inertia->>Laravel: XHR Request (X-Inertia header)
+    Laravel->>React: Prepare Props
+    React-->>Laravel: Component + Props
+    Laravel-->>Inertia: JSON Response
+    Inertia-->>Browser: Update DOM (SPA)

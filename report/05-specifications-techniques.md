@@ -59,31 +59,21 @@ sequenceDiagram
 
 ## 5.2 Stack technique
 
-### Tableau récapitulatif
+### Vue d'ensemble
 
-| Couche                | Technologie    | Version | Rôle                     |
-|-----------------------|----------------|---------|--------------------------|
-| **Backend**           | PHP            | 8.4     | Langage serveur          |
-|                       | Laravel        | 12      | Framework PHP            |
-|                       | Inertia.js     | 2       | Liaison backend-frontend |
-|                       | Eloquent ORM   | -       | Accès base de données    |
-| **Frontend**          | React          | 19      | Bibliothèque UI          |
-|                       | TypeScript     | 5.x     | Typage statique          |
-|                       | Tailwind CSS   | 4       | Framework CSS            |
-|                       | Vite           | 7       | Bundler et dev server    |
-| **UI Components**     | shadcn/ui      | -       | Composants UI            |
-|                       | Radix UI       | -       | Primitives accessibles   |
-|                       | Lucide React   | -       | Icônes                   |
-| **Éditeur de code**   | Monaco Editor  | -       | Éditeur intégré          |
-| **Base de données**   | SQLite         | -       | Développement            |
-|                       | PostgreSQL     | 17      | Production               |
-| **Authentification**  | WorkOS         | -       | Auth / OAuth             |
-| **Exécution de code** | Judge0         | -       | Sandbox Java             |
-| **Tests**             | Pest           | 4       | Tests PHP                |
-|                       | JUnit          | 5       | Tests Java (exercices)   |
-| **Déploiement**       | Docker         | -       | Conteneurisation         |
-|                       | Coolify        | -       | Plateforme PaaS          |
-|                       | GitHub Actions | -       | CI/CD                    |
+Le **backend** repose sur PHP 8.4 avec Laravel 12 comme framework principal. Inertia.js v2 assure la liaison entre le backend et le frontend, tandis qu'Eloquent ORM gère l'accès à la base de données.
+
+Le **frontend** utilise React 19 avec TypeScript 5.x pour le typage statique. Tailwind CSS 4 sert de framework CSS et Vite 7 assure le bundling et le serveur de développement.
+
+Les **composants UI** sont construits avec shadcn/ui et les primitives accessibles de Radix UI. Lucide React fournit les icônes, et Monaco Editor offre un éditeur de code intégré de qualité professionnelle.
+
+La **base de données** est SQLite en développement et PostgreSQL 18 en production.
+
+L'**authentification** est déléguée à WorkOS pour gérer le SSO et OAuth. L'**exécution de code** Java est sandboxée via Judge0.
+
+Les **tests** utilisent Pest 4 pour PHP et JUnit 5 pour les exercices Java des apprenants.
+
+Le **déploiement** s'appuie sur Docker pour la conteneurisation, Laravel Cloud comme plateforme PaaS, et GitHub Actions pour la CI/CD.
 
 ### Justification des choix techniques
 
@@ -208,19 +198,17 @@ erDiagram
 
 ### Description des entités principales
 
-| Entité               | Description                     | Relations                                              |
-|----------------------|---------------------------------|--------------------------------------------------------|
-| **User**             | Utilisateur de la plateforme    | A plusieurs LessonCompletions                          |
-| **Course**           | Cours de formation              | A plusieurs Chapters, A plusieurs FAQs                 |
-| **Chapter**          | Chapitre d'un cours             | Appartient à Course, A plusieurs Lessons               |
-| **Lesson**           | Leçon d'un chapitre             | Appartient à Chapter, A plusieurs LessonBlocks         |
-| **LessonBlock**      | Bloc de contenu (polymorphique) | Appartient à Lesson, Référence un type de Block*       |
-| **BlockVideo**       | Contenu vidéo                   | Peut être référencé par LessonBlock                    |
-| **BlockText**        | Contenu texte                   | Peut être référencé par LessonBlock                    |
-| **BlockResources**   | Liens vers ressources           | Peut être référencé par LessonBlock                    |
-| **BlockQuiz**        | Quiz à choix multiples          | Peut être référencé par LessonBlock                    |
-| **BlockAssignment**  | Exercice de code                | Peut être référencé par LessonBlock, A plusieurs Tests |
-| **LessonCompletion** | Suivi de progression            | Appartient à User, Appartient à Lesson                 |
+L'entité **User** représente un utilisateur de la plateforme et possède plusieurs LessonCompletions pour suivre sa progression.
+
+L'entité **Course** représente un cours de formation. Elle contient plusieurs Chapters et peut avoir plusieurs FAQs associées.
+
+L'entité **Chapter** représente un chapitre d'un cours. Elle appartient à un Course et contient plusieurs Lessons.
+
+L'entité **Lesson** représente une leçon d'un chapitre. Elle appartient à un Chapter et contient plusieurs LessonBlocks.
+
+L'entité **LessonBlock** est un bloc de contenu polymorphique. Elle appartient à une Lesson et référence un type de bloc spécifique parmi : **BlockVideo** (contenu vidéo), **BlockText** (contenu texte), **BlockResources** (liens vers des ressources), **BlockQuiz** (quiz à choix multiples), ou **BlockAssignment** (exercice de code avec tests associés).
+
+Enfin, l'entité **LessonCompletion** assure le suivi de progression. Elle fait le lien entre un User et une Lesson pour indiquer quand celle-ci a été complétée.
 
 ## 5.4 API et endpoints
 
@@ -228,26 +216,17 @@ erDiagram
 
 **Routes publiques (apprenants) :**
 
-| Méthode | Route                                         | Contrôleur                  | Description          |
-|---------|-----------------------------------------------|-----------------------------|----------------------|
-| GET     | `/courses`                                    | CourseController@index      | Liste des cours      |
-| GET     | `/courses/{course}`                           | CourseController@show       | Détail d'un cours    |
-| GET     | `/courses/{course}/lessons/{lesson}`          | LessonController@show       | Afficher une leçon   |
-| POST    | `/courses/{course}/lessons/{lesson}/complete` | LessonController@complete   | Marquer complété     |
-| POST    | `/assignments/{assignment}/run`               | AssignmentController@run    | Exécuter le code     |
-| POST    | `/assignments/{assignment}/submit`            | AssignmentController@submit | Soumettre pour tests |
+Les routes publiques permettent aux apprenants de naviguer dans les cours. La route GET `/courses` (CourseController@index) affiche la liste des cours, tandis que GET `/courses/{course}` (CourseController@show) affiche le détail d'un cours spécifique.
+
+Pour les leçons, GET `/courses/{course}/lessons/{lesson}` (LessonController@show) affiche une leçon et POST `/courses/{course}/lessons/{lesson}/complete` (LessonController@complete) permet de marquer une leçon comme terminée.
+
+Les exercices de code disposent de deux endpoints : POST `/assignments/{assignment}/run` (AssignmentController@run) pour exécuter le code et POST `/assignments/{assignment}/submit` (AssignmentController@submit) pour soumettre le code aux tests JUnit.
 
 **Routes administration :**
 
-| Méthode          | Route                               | Description                       |
-|------------------|-------------------------------------|-----------------------------------|
-| GET/POST         | `/admin/courses`                    | Liste et création de cours        |
-| GET/PATCH/DELETE | `/admin/courses/{course}`           | Détail, modification, suppression |
-| POST             | `/admin/courses/{course}/chapters`  | Créer un chapitre                 |
-| PATCH            | `/admin/chapters/{chapter}`         | Modifier un chapitre              |
-| POST             | `/admin/chapters/{chapter}/lessons` | Créer une leçon                   |
-| POST             | `/admin/lessons/{lesson}/blocks`    | Ajouter un bloc                   |
-| PATCH            | `/admin/blocks/{block}`             | Modifier un bloc                  |
+L'administration des cours utilise `/admin/courses` en GET pour lister et POST pour créer. La route `/admin/courses/{course}` accepte GET pour le détail, PATCH pour la modification et DELETE pour la suppression.
+
+La gestion de la structure utilise POST `/admin/courses/{course}/chapters` pour créer un chapitre, PATCH `/admin/chapters/{chapter}` pour le modifier, POST `/admin/chapters/{chapter}/lessons` pour créer une leçon, et POST `/admin/lessons/{lesson}/blocks` pour ajouter un bloc. La route PATCH `/admin/blocks/{block}` permet de modifier un bloc existant.
 
 ### Intégration Judge0
 

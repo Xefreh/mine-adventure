@@ -2,17 +2,13 @@
 
 ## Titre Professionnel Développeur Web et Web Mobile (RNCP37674)
 
----
-
 **Candidat :** William Strainchamps
 
 **Organisme de formation :** IRFA BFC
 
-**Période de réalisation :** 5 novembre 2024 - 19 janvier 2026
+**Date de rendu :** 19 janvier 2026
 
 **Date de l'examen :** 23 janvier 2026
-
----
 
 ## Sommaire
 
@@ -72,18 +68,3 @@
     1. Captures d'écran de l'application
     2. Extraits de code significatifs
     3. Diagrammes et schémas complémentaires
-
----
-
-## Tableau de correspondance avec le référentiel RNCP37674
-
-| Compétence du référentiel                                       | Chapitre correspondant |
-|-----------------------------------------------------------------|------------------------|
-| Installer et configurer son environnement de travail            | 6.1                    |
-| Maquetter des interfaces utilisateur web ou web mobile          | 6.2                    |
-| Réaliser des interfaces utilisateur statiques web ou web mobile | 6.3                    |
-| Développer la partie dynamique des interfaces utilisateur       | 6.4                    |
-| Mettre en place une base de données relationnelle               | 7.1                    |
-| Développer des composants d'accès aux données SQL et NoSQL      | 7.2                    |
-| Développer des composants métier côté serveur                   | 7.3                    |
-| Documenter le déploiement d'une application dynamique           | 7.4                    |

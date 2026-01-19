@@ -1,0 +1,6 @@
+erDiagram
+    USER ||--o{ LESSON_COMPLETION : "complète"
+    COURSE ||--o{ CHAPTER : "contient"
+    CHAPTER ||--o{ LESSON : "contient"
+    LESSON ||--o{ LESSON_BLOCK : "contient"
+    LESSON_BLOCK ||--|| BLOCK_ASSIGNMENT : "polymorphique"

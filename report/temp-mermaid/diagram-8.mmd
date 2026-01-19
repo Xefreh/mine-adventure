@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant FE as Frontend (React)
+    participant BE as Backend (Laravel)
+    participant J0 as Judge0 API
+
+    FE->>BE: POST /assignments/{id}/run<br/>{ code: "..." }
+    BE->>BE: Prépare soumission<br/>(+ tests JUnit si submit)
+    BE->>J0: POST /submissions?wait=true<br/>{ source_code, language_id }
+    J0->>J0: Compile Java
+    J0->>J0: Exécute dans sandbox
+    J0-->>BE: { stdout, stderr, status, time, memory }
+    BE->>BE: Parse résultats JUnit
+    BE-->>FE: { output, testResults, allPassed }
+    FE->>FE: Affiche résultats formatés

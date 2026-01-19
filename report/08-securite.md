@@ -6,16 +6,13 @@ Cette section présente les mesures de sécurité implémentées dans Mine Adven
 
 ## Sécurité intégrée de Laravel
 
-Laravel fournit nativement de nombreuses protections de sécurité :
+Laravel fournit nativement de nombreuses protections de sécurité qui ont été exploitées dans ce projet.
 
-| Protection          | Implémentation Laravel                   |
-|---------------------|------------------------------------------|
-| **Injection SQL**   | Eloquent ORM avec requêtes préparées     |
-| **XSS**             | Échappement automatique dans Blade/React |
-| **CSRF**            | Tokens CSRF automatiques                 |
-| **Mass Assignment** | Protection via `$fillable`               |
-| **Hashing**         | Bcrypt/Argon2 pour les mots de passe     |
-| **Encryption**      | Chiffrement AES-256-CBC                  |
+La protection contre les **injections SQL** est assurée par l'ORM Eloquent qui utilise systématiquement des requêtes préparées. Les attaques **XSS** (Cross-Site Scripting) sont prévenues par l'échappement automatique des données dans les templates Blade et les composants React.
+
+Laravel gère automatiquement les **tokens CSRF** (Cross-Site Request Forgery) pour toutes les requêtes POST, PUT, PATCH et DELETE. La protection contre le **Mass Assignment** est configurée via les propriétés `$fillable` des modèles Eloquent, empêchant l'injection de champs non autorisés.
+
+Le **hachage des mots de passe** utilise les algorithmes Bcrypt ou Argon2, garantissant un stockage sécurisé. Enfin, les données sensibles peuvent être protégées par un **chiffrement AES-256-CBC** via la façade Crypt de Laravel.
 
 ## Protection contre les attaques OWASP Top 10
 
@@ -247,12 +244,9 @@ Http::timeout(60)->post($judge0Url, $payload);
 
 ### Données collectées
 
-| Donnée      | Finalité          | Base légale          |
-|-------------|-------------------|----------------------|
-| Email       | Authentification  | Exécution du contrat |
-| Nom         | Personnalisation  | Exécution du contrat |
-| Progression | Suivi pédagogique | Exécution du contrat |
-| Code soumis | Évaluation        | Exécution du contrat |
+L'application collecte uniquement les données strictement nécessaires à son fonctionnement, toutes traitées sur la base légale de l'exécution du contrat.
+
+L'**adresse email** est collectée pour l'authentification des utilisateurs via WorkOS. Le **nom** permet la personnalisation de l'interface et l'affichage dans le tableau de bord. La **progression** dans les cours est enregistrée pour assurer le suivi pédagogique et permettre à l'apprenant de reprendre où il s'était arrêté. Enfin, le **code soumis** lors des exercices est conservé pour l'évaluation automatisée via Judge0.
 
 ### Droits des utilisateurs
 
@@ -357,17 +351,12 @@ it('validates code submission size', function () {
 
 ## Checklist de sécurité
 
-| Vérification                           | Statut |
-|----------------------------------------|--------|
-| HTTPS activé                           | ✅      |
-| Headers de sécurité configurés         | ✅      |
-| CSRF protection active                 | ✅      |
-| Validation des entrées                 | ✅      |
-| Échappement des sorties                | ✅      |
-| Authentification sécurisée (SSO)       | ✅      |
-| Autorisation sur toutes les routes     | ✅      |
-| Secrets dans variables d'environnement | ✅      |
-| Debug désactivé en production          | ✅      |
-| Rate limiting configuré                | ✅      |
-| Exécution de code sandboxée            | ✅      |
-| Logs sans données sensibles            | ✅      |
+L'ensemble des mesures de sécurité ont été vérifiées et validées pour l'application Mine Adventure.
+
+Au niveau du **transport et de la configuration**, HTTPS est activé sur l'ensemble du site, garantissant le chiffrement des communications. Les headers de sécurité sont correctement configurés (X-Frame-Options, X-Content-Type-Options, etc.) et le mode debug est désactivé en production pour éviter toute fuite d'informations sensibles.
+
+Concernant la **protection des données et des formulaires**, la protection CSRF est active sur toutes les requêtes modifiant des données. La validation des entrées est systématiquement appliquée via les Form Requests de Laravel, et l'échappement des sorties est assuré automatiquement par React et Blade.
+
+Pour l'**authentification et l'autorisation**, le système utilise une authentification sécurisée via SSO (WorkOS), et des contrôles d'autorisation sont en place sur toutes les routes sensibles, notamment via le middleware d'administration.
+
+Enfin, les **bonnes pratiques opérationnelles** sont respectées : tous les secrets sont stockés dans des variables d'environnement, le rate limiting est configuré pour prévenir les abus, l'exécution de code utilisateur est sandboxée via Judge0, et les logs ne contiennent aucune donnée sensible.

@@ -1,0 +1,1 @@
+{"theme":"default","themeVariables":{"fontSize":"16px","fontFamily":"Inter, sans-serif"},"flowchart":{"fontSize":14,"nodeSpacing":50,"rankSpacing":50,"curve":"basis"},"sequence":{"fontSize":14,"actorFontSize":14,"noteFontSize":13,"messageFontSize":14},"er":{"fontSize":14,"entityPadding":15},"gitGraph":{"fontSize":14}}

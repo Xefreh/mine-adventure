@@ -1,0 +1,19 @@
+flowchart TB
+    subgraph Judge0["SANDBOX JUDGE0"]
+        direction TB
+        DC["Conteneur Docker isolé"]
+
+        subgraph Restrictions["Restrictions de sécurité"]
+            R1["Réseau désactivé"]
+            R2["Système de fichiers read-only"]
+            R3["CPU limité (5s max)"]
+            R4["Mémoire limitée (128 MB)"]
+            R5["Processus limités"]
+            R6["Isolation des conteneurs"]
+        end
+
+        DC --> Restrictions
+    end
+
+    UserCode["Code utilisateur"] --> Judge0
+    Judge0 --> Result["Résultat sécurisé"]
