@@ -8,14 +8,14 @@ Cette section présente les mesures de sécurité implémentées dans Mine Adven
 
 Laravel fournit nativement de nombreuses protections de sécurité :
 
-| Protection | Implémentation Laravel |
-|------------|------------------------|
-| **Injection SQL** | Eloquent ORM avec requêtes préparées |
-| **XSS** | Échappement automatique dans Blade/React |
-| **CSRF** | Tokens CSRF automatiques |
-| **Mass Assignment** | Protection via `$fillable` |
-| **Hashing** | Bcrypt/Argon2 pour les mots de passe |
-| **Encryption** | Chiffrement AES-256-CBC |
+| Protection          | Implémentation Laravel                   |
+|---------------------|------------------------------------------|
+| **Injection SQL**   | Eloquent ORM avec requêtes préparées     |
+| **XSS**             | Échappement automatique dans Blade/React |
+| **CSRF**            | Tokens CSRF automatiques                 |
+| **Mass Assignment** | Protection via `$fillable`               |
+| **Hashing**         | Bcrypt/Argon2 pour les mots de passe     |
+| **Encryption**      | Chiffrement AES-256-CBC                  |
 
 ## Protection contre les attaques OWASP Top 10
 
@@ -26,13 +26,13 @@ Laravel fournit nativement de nombreuses protections de sécurité :
 **Protection appliquée :**
 
 ```php
-// ❌ Vulnérable - Ne jamais faire
+// Vulnérable - Ne jamais faire
 $users = DB::select("SELECT * FROM users WHERE email = '$email'");
 
-// ✅ Sécurisé - Eloquent ORM
+// Sécurisé - Eloquent ORM
 $users = User::where('email', $email)->get();
 
-// ✅ Sécurisé - Query Builder avec bindings
+// Sécurisé - Query Builder avec bindings
 $users = DB::table('users')
     ->where('email', '?', [$email])
     ->get();
@@ -50,10 +50,10 @@ Toutes les requêtes dans Mine Adventure utilisent Eloquent ORM ou des requêtes
 // React échappe automatiquement les variables
 <p>{userInput}</p> // Sécurisé - échappé automatiquement
 
-// ❌ Dangereux - À éviter sauf cas exceptionnel
+// Dangereux - À éviter sauf cas exceptionnel
 <div dangerouslySetInnerHTML={{ __html: content }} />
 
-// ✅ Pour le contenu Markdown, utilisation de bibliothèques sûres
+// Pour le contenu Markdown, utilisation de bibliothèques sûres
 import ReactMarkdown from 'react-markdown';
 <ReactMarkdown>{content}</ReactMarkdown>
 ```
@@ -204,17 +204,17 @@ L'exécution de code Java utilisateur représente un risque majeur. Voici les me
 
 ```mermaid
 flowchart TB
-    subgraph Judge0["🔒 SANDBOX JUDGE0"]
+    subgraph Judge0["SANDBOX JUDGE0"]
         direction TB
-        DC["🐳 Conteneur Docker isolé"]
+        DC["Conteneur Docker isolé"]
 
         subgraph Restrictions["Restrictions de sécurité"]
-            R1["🚫 Réseau désactivé"]
-            R2["📁 Système de fichiers read-only"]
-            R3["⏱️ CPU limité (5s max)"]
-            R4["💾 Mémoire limitée (128 MB)"]
-            R5["🔐 Processus limités"]
-            R6["🚧 Isolation des conteneurs"]
+            R1["Réseau désactivé"]
+            R2["Système de fichiers read-only"]
+            R3["CPU limité (5s max)"]
+            R4["Mémoire limitée (128 MB)"]
+            R5["Processus limités"]
+            R6["Isolation des conteneurs"]
         end
 
         DC --> Restrictions
@@ -247,12 +247,12 @@ Http::timeout(60)->post($judge0Url, $payload);
 
 ### Données collectées
 
-| Donnée | Finalité | Base légale |
-|--------|----------|-------------|
-| Email | Authentification | Exécution du contrat |
-| Nom | Personnalisation | Exécution du contrat |
+| Donnée      | Finalité          | Base légale          |
+|-------------|-------------------|----------------------|
+| Email       | Authentification  | Exécution du contrat |
+| Nom         | Personnalisation  | Exécution du contrat |
 | Progression | Suivi pédagogique | Exécution du contrat |
-| Code soumis | Évaluation | Exécution du contrat |
+| Code soumis | Évaluation        | Exécution du contrat |
 
 ### Droits des utilisateurs
 
@@ -293,10 +293,10 @@ L'application inclut :
 ### Variables d'environnement
 
 ```php
-// ❌ Ne jamais hardcoder les secrets
+// Ne jamais hardcoder les secrets
 $apiKey = 'sk_xxxxxxxxxxxxx';
 
-// ✅ Utiliser les variables d'environnement
+// Utiliser les variables d'environnement
 $apiKey = config('services.judge0.api_key');
 ```
 
@@ -357,17 +357,17 @@ it('validates code submission size', function () {
 
 ## Checklist de sécurité
 
-| Vérification | Statut |
-|--------------|--------|
-| HTTPS activé | ✅ |
-| Headers de sécurité configurés | ✅ |
-| CSRF protection active | ✅ |
-| Validation des entrées | ✅ |
-| Échappement des sorties | ✅ |
-| Authentification sécurisée (SSO) | ✅ |
-| Autorisation sur toutes les routes | ✅ |
-| Secrets dans variables d'environnement | ✅ |
-| Debug désactivé en production | ✅ |
-| Rate limiting configuré | ✅ |
-| Exécution de code sandboxée | ✅ |
-| Logs sans données sensibles | ✅ |
+| Vérification                           | Statut |
+|----------------------------------------|--------|
+| HTTPS activé                           | ✅      |
+| Headers de sécurité configurés         | ✅      |
+| CSRF protection active                 | ✅      |
+| Validation des entrées                 | ✅      |
+| Échappement des sorties                | ✅      |
+| Authentification sécurisée (SSO)       | ✅      |
+| Autorisation sur toutes les routes     | ✅      |
+| Secrets dans variables d'environnement | ✅      |
+| Debug désactivé en production          | ✅      |
+| Rate limiting configuré                | ✅      |
+| Exécution de code sandboxée            | ✅      |
+| Logs sans données sensibles            | ✅      |

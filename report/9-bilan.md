@@ -10,41 +10,41 @@ Cette section conclut le dossier de projet en présentant les compétences acqui
 
 #### Front-end
 
-| Compétence | Niveau avant | Niveau après | Contexte d'acquisition |
-|------------|--------------|--------------|------------------------|
-| React + TypeScript | Intermédiaire | Avancé | Développement de toutes les interfaces |
-| Tailwind CSS | Débutant | Avancé | Styling de l'application complète |
-| Gestion d'état (Zustand) | Débutant | Intermédiaire | Store de l'éditeur de code |
-| Inertia.js | Débutant | Avancé | Architecture complète du projet |
-| Composants UI (Radix/shadcn) | Débutant | Avancé | Bibliothèque de composants |
+| Compétence                   | Niveau avant  | Niveau après  | Contexte d'acquisition                 |
+|------------------------------|---------------|---------------|----------------------------------------|
+| React + TypeScript           | Intermédiaire | Avancé        | Développement de toutes les interfaces |
+| Tailwind CSS                 | Débutant      | Avancé        | Styling de l'application complète      |
+| Gestion d'état (Zustand)     | Débutant      | Intermédiaire | Store de l'éditeur de code             |
+| Inertia.js                   | Débutant      | Avancé        | Architecture complète du projet        |
+| Composants UI (Radix/shadcn) | Débutant      | Avancé        | Bibliothèque de composants             |
 
 #### Back-end
 
-| Compétence | Niveau avant | Niveau après | Contexte d'acquisition |
-|------------|--------------|--------------|------------------------|
-| Laravel 12 | Intermédiaire | Avancé | Développement du backend complet |
-| Eloquent ORM | Intermédiaire | Avancé | Modélisation et requêtes complexes |
-| API REST | Intermédiaire | Avancé | Intégration Judge0 |
-| Tests (Pest) | Débutant | Intermédiaire | Tests unitaires et fonctionnels |
-| Docker | Débutant | Intermédiaire | Conteneurisation de l'application |
+| Compétence   | Niveau avant  | Niveau après  | Contexte d'acquisition             |
+|--------------|---------------|---------------|------------------------------------|
+| Laravel 12   | Intermédiaire | Avancé        | Développement du backend complet   |
+| Eloquent ORM | Intermédiaire | Avancé        | Modélisation et requêtes complexes |
+| API REST     | Intermédiaire | Avancé        | Intégration Judge0                 |
+| Tests (Pest) | Débutant      | Intermédiaire | Tests unitaires et fonctionnels    |
+| Docker       | Débutant      | Intermédiaire | Conteneurisation de l'application  |
 
 #### DevOps
 
-| Compétence | Niveau avant | Niveau après | Contexte d'acquisition |
-|------------|--------------|--------------|------------------------|
-| CI/CD (GitHub Actions) | Débutant | Intermédiaire | Pipeline automatisé |
-| Déploiement (Coolify) | Débutant | Intermédiaire | Mise en production |
-| Gestion de serveur (VPS) | Débutant | Intermédiaire | Configuration production |
+| Compétence               | Niveau avant | Niveau après  | Contexte d'acquisition   |
+|--------------------------|--------------|---------------|--------------------------|
+| CI/CD (GitHub Actions)   | Débutant     | Intermédiaire | Pipeline automatisé      |
+| Déploiement (Coolify)    | Débutant     | Intermédiaire | Mise en production       |
+| Gestion de serveur (VPS) | Débutant     | Intermédiaire | Configuration production |
 
 ### Compétences transversales
 
-| Compétence | Description |
-|------------|-------------|
-| **Gestion de projet** | Planification, priorisation, suivi de l'avancement |
-| **Résolution de problèmes** | Debugging, recherche de solutions, adaptation |
-| **Veille technologique** | Identification et évaluation de nouvelles technologies |
-| **Documentation** | Rédaction technique, commentaires de code |
-| **Autonomie** | Travail en solo sur un projet complet |
+| Compétence                  | Description                                            |
+|-----------------------------|--------------------------------------------------------|
+| **Gestion de projet**       | Planification, priorisation, suivi de l'avancement     |
+| **Résolution de problèmes** | Debugging, recherche de solutions, adaptation          |
+| **Veille technologique**    | Identification et évaluation de nouvelles technologies |
+| **Documentation**           | Rédaction technique, commentaires de code              |
+| **Autonomie**               | Travail en solo sur un projet complet                  |
 
 ## Difficultés rencontrées et solutions
 
@@ -160,12 +160,12 @@ Implémentation d'un build multi-stage :
 
 ## Ce que je ferais différemment
 
-| Aspect | Approche initiale | Approche améliorée |
-|--------|-------------------|-------------------|
-| **Tests** | Écrits après le code | TDD ou tests en parallèle |
-| **Documentation** | En fin de projet | Continue, au fil du développement |
-| **Validation** | Parfois côté client | Toujours côté serveur d'abord |
-| **Accessibilité** | Ajoutée après | Intégrée dès le début |
+| Aspect            | Approche initiale    | Approche améliorée                |
+|-------------------|----------------------|-----------------------------------|
+| **Tests**         | Écrits après le code | TDD ou tests en parallèle         |
+| **Documentation** | En fin de projet     | Continue, au fil du développement |
+| **Validation**    | Parfois côté client  | Toujours côté serveur d'abord     |
+| **Accessibilité** | Ajoutée après        | Intégrée dès le début             |
 
 ## Perspectives d'évolution
 
@@ -227,18 +227,8 @@ Je suis confiant dans ma capacité à contribuer efficacement à des projets de 
 
 ---
 
-## Remerciements
-
-[AJOUTEZ VOS REMERCIEMENTS SI APPLICABLE]
-- Formateurs
-- Mentors
-- Communautés en ligne
-- ...
-
----
-
-**Projet réalisé par [VOTRE NOM]**
+**Projet réalisé par William Strainchamps**
 
 **Formation : Titre Professionnel Développeur Web et Web Mobile**
 
-**Période : Novembre 2024 - [DATE]**
+**Période : 5 mai 2025 - 2 février 2026**

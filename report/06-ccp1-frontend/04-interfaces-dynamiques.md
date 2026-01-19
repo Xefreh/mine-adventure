@@ -10,14 +10,14 @@ Cette section présente le développement des fonctionnalités dynamiques de Min
 
 ### Stack technologique
 
-| Technologie | Rôle |
-|-------------|------|
-| **React 19** | Rendu et gestion des composants |
-| **Inertia.js v2** | Communication client-serveur |
-| **TypeScript** | Typage statique |
-| **Zustand** | Gestion d'état global |
-| **React Hook Form** | Gestion des formulaires |
-| **Wayfinder** | Routes type-safe |
+| Technologie         | Rôle                            |
+|---------------------|---------------------------------|
+| **React 19**        | Rendu et gestion des composants |
+| **Inertia.js v2**   | Communication client-serveur    |
+| **TypeScript**      | Typage statique                 |
+| **Zustand**         | Gestion d'état global           |
+| **React Hook Form** | Gestion des formulaires         |
+| **Wayfinder**       | Routes type-safe                |
 
 ### Flux de données avec Inertia.js
 
@@ -90,7 +90,7 @@ export function CreateCourseForm() {
                         <Input
                             id="name"
                             name="name"
-                            placeholder="Introduction à Java"
+                            placeholder="Introduction to Java"
                             className={errors.name ? 'border-destructive' : ''}
                         />
                         {errors.name && (
@@ -467,32 +467,15 @@ export function useTheme() {
 ```
 
 ## Validation côté client
-
-```tsx
-// Validation avec Zod (optionnel)
-import { z } from 'zod';
-
-const courseSchema = z.object({
-    name: z.string().min(3, 'Le nom doit faire au moins 3 caractères'),
-    difficulty: z.enum(['easy', 'medium', 'hard']),
-    thumbnail: z.string().url().optional(),
-});
-
-// Utilisation
-function validateCourse(data: unknown) {
-    const result = courseSchema.safeParse(data);
-    if (!result.success) {
-        return result.error.flatten().fieldErrors;
-    }
-    return null;
-}
-```
+// TODO: Exemple avec validation HTML5 et messages d'erreur personnalisés
 
 ## Captures d'écran
 
-[INSÉREZ ICI DES CAPTURES D'ÉCRAN MONTRANT :]
 - L'éditeur de code en action avec résultats de tests
+
+![](../imgs/editeur-code-composant.png)
+
 - Le drag & drop de réorganisation
+
 - Un formulaire avec validation en temps réel
-- Le changement de thème (light/dark)
 - Les notifications toast après une action

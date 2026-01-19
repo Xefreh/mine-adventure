@@ -10,14 +10,14 @@ Cette section présente les composants d'accès aux données développés pour M
 
 ### Pourquoi Eloquent ?
 
-| Avantage | Description |
-|----------|-------------|
-| **Abstraction** | Pas de SQL brut, code plus lisible |
-| **Sécurité** | Protection automatique contre les injections SQL |
-| **Relations** | Gestion intuitive des relations entre tables |
-| **Eager Loading** | Prévention des problèmes N+1 |
-| **Mutateurs** | Transformation automatique des données |
-| **Events** | Hooks sur les opérations CRUD |
+| Avantage          | Description                                      |
+|-------------------|--------------------------------------------------|
+| **Abstraction**   | Pas de SQL brut, code plus lisible               |
+| **Sécurité**      | Protection automatique contre les injections SQL |
+| **Relations**     | Gestion intuitive des relations entre tables     |
+| **Eager Loading** | Prévention des problèmes N+1                     |
+| **Mutateurs**     | Transformation automatique des données           |
+| **Events**        | Hooks sur les opérations CRUD                    |
 
 ## Modèles Eloquent
 
@@ -533,12 +533,12 @@ class CourseFactory extends Factory
 
 ## Bonnes pratiques appliquées
 
-| Pratique | Application |
-|----------|-------------|
-| **Eloquent ORM** | Pas de SQL brut, abstraction complète |
-| **Eager Loading** | Prévention systématique des N+1 |
-| **Query Scopes** | Requêtes réutilisables et lisibles |
-| **Transactions** | Intégrité des données sur les opérations multiples |
-| **Factories** | Données de test cohérentes |
-| **Type hints** | Retours typés sur toutes les méthodes |
-| **Relations explicites** | Documentation des relations dans les modèles |
+| Pratique                 | Application                                        |
+|--------------------------|----------------------------------------------------|
+| **Eloquent ORM**         | Pas de SQL brut, abstraction complète              |
+| **Eager Loading**        | Prévention systématique des N+1                    |
+| **Query Scopes**         | Requêtes réutilisables et lisibles                 |
+| **Transactions**         | Intégrité des données sur les opérations multiples |
+| **Factories**            | Données de test cohérentes                         |
+| **Type hints**           | Retours typés sur toutes les méthodes              |
+| **Relations explicites** | Documentation des relations dans les modèles       |

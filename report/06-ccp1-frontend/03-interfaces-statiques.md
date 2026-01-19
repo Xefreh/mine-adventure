@@ -102,9 +102,9 @@ interface CourseCardProps {
 }
 
 const difficultyConfig = {
-    easy: { label: 'Facile', className: 'bg-green-100 text-green-800' },
-    medium: { label: 'Moyen', className: 'bg-yellow-100 text-yellow-800' },
-    hard: { label: 'Difficile', className: 'bg-red-100 text-red-800' },
+    easy: { label: 'Easy', className: 'bg-green-100 text-green-800' },
+    medium: { label: 'Medium', className: 'bg-yellow-100 text-yellow-800' },
+    hard: { label: 'Hard', className: 'bg-red-100 text-red-800' },
 };
 
 export function CourseCard({ course }: CourseCardProps) {

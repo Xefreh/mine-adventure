@@ -8,10 +8,10 @@ Cette section présente la conception et la mise en place de la base de données
 
 ## Système de gestion de base de données
 
-| Environnement | SGBD | Justification |
-|---------------|------|---------------|
-| **Développement** | SQLite | Léger, sans serveur, idéal pour le dev local |
-| **Production** | PostgreSQL 15 | Robuste, performant, excellent support JSON |
+| Environnement     | SGBD          | Justification                                |
+|-------------------|---------------|----------------------------------------------|
+| **Développement** | SQLite        | Léger, sans serveur, idéal pour le dev local |
+| **Production**    | PostgreSQL 17 | Robuste, performant, excellent support JSON  |
 
 ## Modèle Conceptuel de Données (MCD)
 
@@ -429,17 +429,17 @@ $table->index(['lesson_id', 'position']);  // Blocs triés par leçon
 
 Le schéma complet est documenté dans `docs/schema.dbml` au format DBML (Database Markup Language).
 
-[INSÉREZ ICI UNE CAPTURE DU SCHÉMA DEPUIS UN OUTIL COMME DBDIAGRAM.IO]
+![](../imgs/database-schema.png)
 
 ## Bonnes pratiques appliquées
 
-| Pratique | Application |
-|----------|-------------|
-| **Normalisation** | Tables normalisées (3NF), pas de redondance |
-| **Clés primaires** | ID auto-incrémenté sur chaque table |
-| **Clés étrangères** | Relations explicites avec contraintes |
-| **Cascade** | Suppression en cascade pour l'intégrité |
-| **Index** | Index sur les colonnes fréquemment utilisées |
-| **Timestamps** | created_at et updated_at automatiques |
-| **Soft deletes** | Non utilisé (suppression définitive) |
-| **Enums** | Types PHP pour les valeurs contraintes |
+| Pratique            | Application                                  |
+|---------------------|----------------------------------------------|
+| **Normalisation**   | Tables normalisées (3NF), pas de redondance  |
+| **Clés primaires**  | ID auto-incrémenté sur chaque table          |
+| **Clés étrangères** | Relations explicites avec contraintes        |
+| **Cascade**         | Suppression en cascade pour l'intégrité      |
+| **Index**           | Index sur les colonnes fréquemment utilisées |
+| **Timestamps**      | created_at et updated_at automatiques        |
+| **Soft deletes**    | Non utilisé (suppression définitive)         |
+| **Enums**           | Types PHP pour les valeurs contraintes       |

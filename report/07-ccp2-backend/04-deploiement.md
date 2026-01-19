@@ -21,7 +21,7 @@ flowchart LR
     end
 
     GR -->|"push"| GA
-    GA -->|"webhook"| DC
+    GA -->|"manually redeploy"| DC
     DC <-->|"SQL"| PG
 ```
 
@@ -284,13 +284,13 @@ jobs:
 
 **Coolify** est une plateforme de déploiement open-source auto-hébergée qui permet de déployer des applications facilement sur un VPS.
 
-| Avantage | Description |
-|----------|-------------|
-| **Self-hosted** | Contrôle total sur l'infrastructure |
-| **Docker native** | Support complet de Docker et Docker Compose |
-| **SSL automatique** | Certificats Let's Encrypt automatiques |
-| **Zero-downtime** | Déploiement sans interruption |
-| **Webhooks** | Déploiement automatique via CI/CD |
+| Avantage            | Description                                 |
+|---------------------|---------------------------------------------|
+| **Self-hosted**     | Contrôle total sur l'infrastructure         |
+| **Docker native**   | Support complet de Docker et Docker Compose |
+| **SSL automatique** | Certificats Let's Encrypt automatiques      |
+| **Zero-downtime**   | Déploiement sans interruption               |
+| **Webhooks**        | Déploiement automatique via CI/CD           |
 
 ### Configuration dans Coolify
 
@@ -351,7 +351,7 @@ flowchart TD
     B --> B3["Exécution tests<br/>(Pest)"]
 
     B1 & B2 & B3 --> C{"Tests OK ?"}
-    C -->|"Non"| X["❌ Échec"]
+    C -->|"Non"| X["Échec"]
     C -->|"Oui"| D["3. Webhook Coolify"]
 
     D --> E["4. Build sur Coolify"]
@@ -369,7 +369,7 @@ flowchart TD
     G --> G2["php artisan config:cache"]
     G --> G3["php artisan route:cache"]
 
-    G1 & G2 & G3 --> H["✅ Déploiement terminé"]
+    G1 & G2 & G3 --> H["Déploiement terminé"]
 ```
 
 ## Commandes post-déploiement
@@ -434,47 +434,31 @@ git revert HEAD
 git push origin main
 ```
 
-## Sauvegardes
-
-### Base de données
-
-```bash
-# Backup automatique (cron sur le VPS)
-0 2 * * * docker exec postgres pg_dump -U postgres mine_adventure > /backups/db_$(date +\%Y\%m\%d).sql
-```
-
-### Fichiers uploadés
-
-```bash
-# Sync vers stockage externe (si applicable)
-0 3 * * * rsync -av /var/www/html/storage/app/public/ /backups/uploads/
-```
-
 ## Checklist de déploiement
 
-| Étape | Vérification |
-|-------|--------------|
-| ✅ | Code pushé sur la branche main |
-| ✅ | Tests CI passés (Pint, ESLint, Pest) |
-| ✅ | Build Docker réussi |
-| ✅ | Migrations exécutées |
-| ✅ | Application accessible |
-| ✅ | Health check OK |
-| ✅ | SSL valide |
-| ✅ | Fonctionnalités critiques testées |
+| Étape | Vérification                         |
+|-------|--------------------------------------|
+| ✅     | Code pushé sur la branche main       |
+| ✅     | Tests CI passés (Pint, ESLint, Pest) |
+| ✅     | Build Docker réussi                  |
+| ✅     | Migrations exécutées                 |
+| ✅     | Application accessible               |
+| ✅     | Health check OK                      |
+| ✅     | SSL valide                           |
+| ✅     | Fonctionnalités critiques testées    |
 
 ## Diagramme de l'infrastructure
 
 ```mermaid
 flowchart TB
-    Internet["🌐 Internet"]
-    CF["☁️ Cloudflare<br/>(DNS + CDN)"]
+    Internet["Internet"]
+    CF["Cloudflare<br/>(DNS + CDN)"]
 
     subgraph VPS["VPS (Ubuntu Server)"]
         subgraph Coolify
             subgraph DockerNetwork["Docker Network"]
-                App["🐳 Container App<br/>Nginx + PHP-FPM"]
-                DB["🐘 PostgreSQL"]
+                App["Container App<br/>Nginx + PHP-FPM"]
+                DB["PostgreSQL"]
             end
         end
     end

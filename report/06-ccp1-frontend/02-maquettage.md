@@ -10,14 +10,14 @@ Cette section présente la démarche de maquettage adoptée pour le projet Mine 
 
 **Figma** a été choisi comme outil de maquettage pour ses nombreux avantages :
 
-| Avantage | Description |
-|----------|-------------|
+| Avantage         | Description                             |
+|------------------|-----------------------------------------|
 | **Collaboratif** | Travail en temps réel, partage de liens |
-| **Gratuit** | Plan gratuit suffisant pour le projet |
-| **Composants** | Système de composants réutilisables |
-| **Prototypage** | Création de prototypes interactifs |
-| **Responsive** | Prévisualisation multi-écrans |
-| **Plugins** | Écosystème riche (icônes, images, etc.) |
+| **Gratuit**      | Plan gratuit suffisant pour le projet   |
+| **Composants**   | Système de composants réutilisables     |
+| **Prototypage**  | Création de prototypes interactifs      |
+| **Responsive**   | Prévisualisation multi-écrans           |
+| **Plugins**      | Écosystème riche (icônes, images, etc.) |
 
 ## Démarche de conception
 
@@ -63,28 +63,28 @@ Les maquettes haute fidélité intègrent :
 
 #### Charte graphique
 
-| Élément | Valeur |
-|---------|--------|
-| **Couleur primaire** | [Votre couleur principale] |
-| **Couleur secondaire** | [Couleur secondaire] |
-| **Couleur d'accent** | [Couleur d'accent] |
-| **Fond clair** | #FFFFFF / #F5F5F5 |
-| **Fond sombre** | #1A1A1A / #0A0A0A |
-| **Typographie principale** | Inter |
-| **Typographie code** | JetBrains Mono |
+| Élément                    | Valeur                     |
+|----------------------------|----------------------------|
+| **Couleur primaire**       | [Votre couleur principale] |
+| **Couleur secondaire**     | [Couleur secondaire]       |
+| **Couleur d'accent**       | [Couleur d'accent]         |
+| **Fond clair**             | #FFFFFF / #F5F5F5          |
+| **Fond sombre**            | #1A1A1A / #0A0A0A          |
+| **Typographie principale** | Inter                      |
+| **Typographie code**       | JetBrains Mono             |
 
 #### Système de composants Figma
 
 J'ai créé une bibliothèque de composants réutilisables :
 
-| Composant | Variantes |
-|-----------|-----------|
-| **Button** | Primary, Secondary, Outline, Ghost, Destructive |
-| **Card** | Default, Hover, Selected |
-| **Input** | Default, Focus, Error, Disabled |
-| **Badge** | Easy (vert), Medium (jaune), Hard (rouge) |
-| **Progress** | Linear, Circular |
-| **Navigation** | Desktop, Mobile, Breadcrumb |
+| Composant      | Variantes                                       |
+|----------------|-------------------------------------------------|
+| **Button**     | Primary, Secondary, Outline, Ghost, Destructive |
+| **Card**       | Default, Hover, Selected                        |
+| **Input**      | Default, Focus, Error, Disabled                 |
+| **Badge**      | Easy (vert), Medium (jaune), Hard (rouge)       |
+| **Progress**   | Linear, Circular                                |
+| **Navigation** | Desktop, Mobile, Breadcrumb                     |
 
 ### 4. Maquettes des pages principales
 
@@ -142,11 +142,11 @@ J'ai créé une bibliothèque de composants réutilisables :
 
 Les maquettes ont été conçues pour trois breakpoints principaux :
 
-| Breakpoint | Largeur | Cible |
-|------------|---------|-------|
-| **Mobile** | < 768px | Smartphones |
-| **Tablet** | 768px - 1024px | Tablettes |
-| **Desktop** | > 1024px | Ordinateurs |
+| Breakpoint  | Largeur        | Cible       |
+|-------------|----------------|-------------|
+| **Mobile**  | < 768px        | Smartphones |
+| **Tablet**  | 768px - 1024px | Tablettes   |
+| **Desktop** | > 1024px       | Ordinateurs |
 
 #### Adaptations mobile :
 
@@ -163,11 +163,11 @@ Conformément au Référentiel Général d'Amélioration de l'Accessibilité (RG
 
 ### Contrastes
 
-| Élément | Ratio de contraste | Conformité |
-|---------|-------------------|------------|
-| Texte sur fond clair | > 4.5:1 | ✅ AA |
-| Texte sur fond sombre | > 4.5:1 | ✅ AA |
-| Éléments interactifs | > 3:1 | ✅ AA |
+| Élément               | Ratio de contraste | Conformité |
+|-----------------------|--------------------|------------|
+| Texte sur fond clair  | > 4.5:1            | ✅ AA       |
+| Texte sur fond sombre | > 4.5:1            | ✅ AA       |
+| Éléments interactifs  | > 3:1              | ✅ AA       |
 
 ### Tailles et espacements
 
