@@ -361,9 +361,22 @@ import { BookOpen, Clock, CheckCircle } from 'lucide-react';
 
 ## Captures d'écran
 
-[INSÉREZ ICI DES CAPTURES D'ÉCRAN MONTRANT :]
-- La page d'accueil en version desktop
+- La page de tableau de bord en version desktop
+
+![](../imgs/tableau-bord.png)
+
 - La même page en version mobile
+
+![](../imgs/tableau-bord-mobile.png)
+
 - Le catalogue de cours avec les cartes
+
+![](../imgs/catalogue-cours.png)
+
 - Une page de leçon avec les différents blocs
-- L'interface en mode sombre
+
+![](../imgs/lecon-exemple.png)
+
+- L'interface en mode light
+
+![](../imgs/lecon-exemple-light.png)
