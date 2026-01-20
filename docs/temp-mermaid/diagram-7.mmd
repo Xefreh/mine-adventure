@@ -1,0 +1,71 @@
+erDiagram
+    User ||--o{ LessonCompletion : "completes"
+    User {
+        int id PK
+        string workos_id UK
+        string email UK
+        string name
+        boolean is_admin
+    }
+
+    Course ||--o{ Chapter : "contains"
+    Course {
+        int id PK
+        string name
+        string thumbnail
+        enum difficulty
+    }
+
+    Chapter ||--o{ Lesson : "contains"
+    Chapter {
+        int id PK
+        int course_id FK
+        string name
+        int position
+    }
+
+    Lesson ||--o{ LessonBlock : "contains"
+    Lesson ||--o{ LessonCompletion : "tracked by"
+    Lesson {
+        int id PK
+        int chapter_id FK
+        string name
+        int position
+    }
+
+    LessonBlock ||--o| BlockVideo : "morphs to"
+    LessonBlock ||--o| BlockText : "morphs to"
+    LessonBlock ||--o| BlockAssignment : "morphs to"
+    LessonBlock {
+        int id PK
+        int lesson_id FK
+        enum type
+        int blockable_id
+        string blockable_type
+        int position
+    }
+
+    LessonCompletion {
+        int id PK
+        int user_id FK
+        int lesson_id FK
+        datetime completed_at
+    }
+
+    BlockVideo {
+        int id PK
+        string url
+        int duration
+    }
+
+    BlockText {
+        int id PK
+        text content
+    }
+
+    BlockAssignment {
+        int id PK
+        text instructions
+        text starter_code
+        string language
+    }

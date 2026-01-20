@@ -1,0 +1,28 @@
+flowchart TB
+    subgraph MineAdventure["Mine Adventure"]
+        direction TB
+
+        subgraph Visiteur["Visiteur"]
+            V1["Voir page tableau de bord"]
+            V2["S'inscrire"]
+            V3["Se connecter"]
+        end
+
+        subgraph Apprenant["Apprenant"]
+            A1["Parcourir cours"]
+            A2["Suivre leçons"]
+            A3["Exécuter code"]
+            A4["Soumettre exercices"]
+            A5["Voir progression"]
+            A6["Consulter dashboard"]
+        end
+
+        subgraph Admin["Administrateur"]
+            AD1["Gérer cours"]
+            AD2["Gérer chapitres"]
+            AD3["Gérer leçons"]
+            AD4["Créer blocs"]
+            AD5["Créer exercices"]
+            AD6["Gérer FAQ"]
+        end
+    end

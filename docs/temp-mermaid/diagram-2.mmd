@@ -1,0 +1,40 @@
+flowchart LR
+    A["1. Analyse"] --> B["2. Conception"]
+    B --> C["3. Développement"]
+    C --> D["4. Tests"]
+    D --> E["5. Déploiement"]
+    E --> F["6. Review"]
+    F -.-> A
+
+    subgraph Analyse
+        A1["User stories"]
+        A2["Spécifications"]
+        A3["Priorisation"]
+    end
+
+    subgraph Conception
+        B1["Maquettes Figma"]
+        B2["Schéma BDD"]
+        B3["Architecture"]
+    end
+
+    subgraph Developpement["Développement"]
+        C1["Code front-end"]
+        C2["Code back-end"]
+        C3["Tests unitaires"]
+    end
+
+    subgraph Tests
+        D1["Tests manuels"]
+        D2["Tests auto"]
+    end
+
+    subgraph Deploiement["Déploiement"]
+        E1["CI/CD"]
+        E2["Mise en prod"]
+    end
+
+    subgraph Review
+        F1["Revue de code"]
+        F2["Améliorations"]
+    end

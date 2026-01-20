@@ -1,0 +1,30 @@
+gitGraph
+    commit id: "284b5b4: Initial commit"
+    commit id: "438fb11: editor config"
+    
+    branch feature/admin-courses-dashboard
+    checkout feature/admin-courses-dashboard
+    commit id: "ec32fdb: Add LMS admin panel"
+    
+    checkout main
+    merge feature/admin-courses-dashboard tag: "PR #1"
+    commit id: "5108a12: Add CourseSeeder"
+    
+    branch feature/courses-navigation-for-members
+    checkout feature/courses-navigation-for-members
+    commit id: "60d7384: Add student LMS + Judge0"
+    
+    checkout main
+    merge feature/courses-navigation-for-members tag: "PR #2"
+    commit id: "b56b7f7: Add markdown & quiz"
+    commit id: "ac50ff5: Dashboard with timeline"
+    
+    branch feature/code-execution-judge0
+    checkout feature/code-execution-judge0
+    commit id: "Amélioration Judge0"
+    
+    checkout main
+    merge feature/code-execution-judge0 tag: "PR #3"
+    commit id: "5738bb1: JUnit 5 support"
+    commit id: "7dff41a: JetBrains Mono font"
+    commit id: "117d3b1: Mobile timeline" type: HIGHLIGHT

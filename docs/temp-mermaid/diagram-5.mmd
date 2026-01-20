@@ -1,0 +1,24 @@
+flowchart TB
+    subgraph Client["Client (React)"]
+        TS["TypeScript"]
+        TW["Tailwind CSS"]
+        IN["Inertia.js"]
+    end
+
+    subgraph Serveur["Serveur (Laravel)"]
+        PHP["PHP 8.4"]
+        EL["Eloquent ORM"]
+    end
+
+    subgraph Services["Services Externes"]
+        J0["Judge0 API"]
+        WO["WorkOS Auth"]
+    end
+
+    subgraph Database["Base de données"]
+        PG["PostgreSQL"]
+    end
+
+    Client <-->|"Inertia Protocol"| Serveur
+    Serveur <-->|"HTTP API"| Services
+    Serveur <-->|"SQL"| Database
