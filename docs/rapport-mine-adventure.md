@@ -219,23 +219,23 @@ Le **suivi de progression** est assuré par un tableau de bord affichant des sta
 
 - Le tableau de bord de l'apprenant
 
-![](./imgs/tableau-bord.png)
+![](imgsableau-bord.png)
 
 - Le catalogue des cours
 
-![](./imgs/catalogue-cours.png)
+![](imgsatalogue-cours.png)
 
 - Une leçon avec différents types de blocs
 
-![](./imgs/lecon-exemple.png)
+![](imgsecon-exemple.png)
 
 - L'éditeur de code avec les résultats de tests
 
-![](./imgs/editeur-code.png)
+![](imgsditeur-code.png)
 
 - L'interface d'administration
 
-![](./imgs/admin-interface.png)
+![](imgsdmin-interface.png)
 
 
 # 3. Gestion de Projet
@@ -825,7 +825,7 @@ export function CourseCard({ course }: CourseCardProps) {
 ## Tailwind CSS 4
 
 ```css
-@import "tailwindcss";
+@import "../node_modules/tailwindcss/dist/lib.d.mts";
 
 @theme {
     --color-primary: oklch(0.65 0.15 250);

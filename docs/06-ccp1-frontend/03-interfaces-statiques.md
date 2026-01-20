@@ -60,7 +60,7 @@ export function CourseCard({ course }: CourseCardProps) {
 ## Tailwind CSS 4
 
 ```css
-@import "tailwindcss";
+@import "../../node_modules/tailwindcss/dist/lib.d.mts";
 
 @theme {
     --color-primary: oklch(0.65 0.15 250);

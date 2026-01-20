@@ -104,20 +104,20 @@ flowchart TB
 
 - Le tableau de bord de l'apprenant
 
-![](./imgs/tableau-bord.png)
+![](imgsableau-bord.png)
 
 - Le catalogue des cours
 
-![](./imgs/catalogue-cours.png)
+![](imgsatalogue-cours.png)
 
 - Une leçon avec différents types de blocs
 
-![](./imgs/lecon-exemple.png)
+![](imgsecon-exemple.png)
 
 - L'éditeur de code avec les résultats de tests
 
-![](./imgs/editeur-code.png)
+![](imgsditeur-code.png)
 
 - L'interface d'administration
 
-![](./imgs/admin-interface.png)
+![](imgsdmin-interface.png)
