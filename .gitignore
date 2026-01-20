@@ -26,3 +26,5 @@ yarn-error.log
 /.vscode
 /.zed
 /.junie
+/docs/pdf-styles.css
+/docs/build-pdf.cjs
