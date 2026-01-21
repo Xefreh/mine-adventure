@@ -9,6 +9,14 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
+Route::get('/legal', function () {
+    return Inertia::render('legal');
+})->name('legal');
+
+Route::get('/privacy', function () {
+    return Inertia::render('privacy');
+})->name('privacy');
+
 Route::middleware([
     'auth',
     ValidateSessionWithWorkOS::class,

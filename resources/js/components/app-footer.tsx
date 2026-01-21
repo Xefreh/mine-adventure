@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import { legal, privacy } from '@/routes';
 
 export function AppFooter() {
   const currentYear = new Date().getFullYear();
@@ -14,11 +15,11 @@ export function AppFooter() {
             <Link href="/courses" className="text-muted-foreground hover:text-foreground text-sm transition-colors">
               Courses
             </Link>
-            <Link href="/about" className="text-muted-foreground hover:text-foreground text-sm transition-colors">
-              About
+            <Link href={legal()} className="text-muted-foreground hover:text-foreground text-sm transition-colors">
+              Legal
             </Link>
-            <Link href="/contact" className="text-muted-foreground hover:text-foreground text-sm transition-colors">
-              Contact
+            <Link href={privacy()} className="text-muted-foreground hover:text-foreground text-sm transition-colors">
+              Privacy
             </Link>
           </nav>
         </div>
